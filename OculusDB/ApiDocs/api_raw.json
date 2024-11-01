@@ -125,7 +125,6 @@
         "__OculusDBType"
       ],
       "values": [
-        [
           {
             "value": -1,
             "enumName": "Unknown",
@@ -241,7 +240,6 @@
             "enumName": "IapItemPackOfferChangedAndUpdated",
             "description": "In-app purchase item pack offer has changed and pack has been updated"
           }
-        ]
 
       ]
     },
@@ -252,7 +250,6 @@
         "__OculusDBType"
       ],
       "values": [
-        [
           {
             "value": "AppImage",
             "enumName": "AppImage",
@@ -363,8 +360,6 @@
             "enumName": "ApplicationNull",
             "description": "Represents a null application (which is not exposed in the api)"
           }
-        ]
-
       ]
     }
   ],

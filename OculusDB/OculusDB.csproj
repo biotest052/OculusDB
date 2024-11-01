@@ -9,10 +9,6 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.23.1" />
-    <PackageReference Include="OpenAPIGenerator" Version="0.22.5">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="SemanticVersioning" Version="2.0.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.2" />
     <PackageReference Include="System.Buffers" Version="4.5.1" />
