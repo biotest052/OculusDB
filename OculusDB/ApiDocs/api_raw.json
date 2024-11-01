@@ -506,7 +506,7 @@
           "required": true
         }
       ],
-      "exampleUrl": "/api/v2/connect/2448060205267927",
+      "exampleUrl": "/api/v2/connected/2448060205267927",
       "exampleResponse": {}
     },
     {
