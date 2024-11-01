@@ -768,7 +768,7 @@
       "method": "GET",
       "description": "Gets the OculusDB config, needs authorization",
       "parameters": [],
-      "exampleUrl": "/api/v2/admin/config",
+      "exampleUrl": "",
       "exampleResponse": {}
     },
     {
@@ -776,7 +776,7 @@
       "method": "POST",
       "description": "Updates the OculusDB config, needs authorization",
       "parameters": [],
-      "exampleUrl": "/api/v2/admin/config",
+      "exampleUrl": "",
       "exampleResponse": {}
     },
     {
@@ -784,7 +784,7 @@
       "method": "GET",
       "description": "Gets the OculusDB user config, needs authorization",
       "parameters": [],
-      "exampleUrl": "/api/v2/admin/users",
+      "exampleUrl": "",
       "exampleResponse": {}
     },
     {
@@ -792,7 +792,7 @@
       "method": "POST",
       "description": "Updates the OculusDB user config, needs authorization",
       "parameters": [],
-      "exampleUrl": "/api/v2/admin/users",
+      "exampleUrl": "",
       "exampleResponse": {}
     }
   ]
