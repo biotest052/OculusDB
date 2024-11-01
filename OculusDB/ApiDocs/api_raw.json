@@ -560,15 +560,10 @@
       "exampleResponse": {}
     },
     {
-      "url": "/api/v2/allapps?currency=<currency>",
+      "url": "/api/v2/allapps",
       "method": "GET",
       "description": "Aggregates all apps from the database, expensive request",
       "parameters": [
-        {
-          "name": "currency",
-          "description": "Preferred currency",
-          "required": false
-        }
       ],
       "exampleUrl": "/api/v2/allapps",
       "exampleResponse": {}
