@@ -63,8 +63,7 @@
       "description": "Headset",
       "usedOn": [
         "hmd",
-        "supported_hmd_types",
-        "?headsets="
+        "supported_hmd_types"
       ],
       "values": [
         {
@@ -110,77 +109,140 @@
         {
           "value": 8,
           "enumName": "PANTHER",
-          "description": "Quest mini?"
+          "description": "Quest 3S"
+        },
+        {
+          "value": 9,
+          "enumName": "FUTURE_DEVICES",
+          "description": "Future devices"
         }
       ]
     },
     {
-      "name": "Activity types",
-      "description": "Types of Activities found on OculusDB",
+      "name": "Difference name types",
+      "description": "Types of differences found on OculusDB",
       "usedOn": [
         "__OculusDBType"
       ],
       "values": [
-        {
-          "value": "ActivityNewApplication",
-          "enumName": "ActivityNewApplication",
-          "description": "New Application released"
-        },
-        {
-          "value": "ActivityApplicationUpdated",
-          "enumName": "ActivityApplicationUpdated",
-          "description": "Application details have been updated"
-        },
-        {
-          "value": "ActivityPriceChanged",
-          "enumName": "ActivityPriceChanged",
-          "description": "Price of application changed"
-        },
-        {
-          "value": "ActivityNewVersion",
-          "enumName": "ActivityNewVersion",
-          "description": "New Version Uploaded"
-        },
-        {
-          "value": "ActivityVersionChangelogAvailable",
-          "enumName": "ActivityVersionChangelogAvailable",
-          "description": "A versions changelog is now available on OculusDB"
-        },
-        {
-          "value": "ActivityVersionChangelogUpdated",
-          "enumName": "ActivityVersionChangelogUpdated",
-          "description": "A versions changelog has been updated"
-        },
-        {
-          "value": "ActivityVersionUpdated",
-          "enumName": "ActivityVersionUpdated",
-          "description": "Version details updated (e. g. downloadable)"
-        },
-        {
-          "value": "ActivityNewDLC",
-          "enumName": "ActivityNewDLC",
-          "description": "New dlc released"
-        },
-        {
-          "value": "ActivityDLCUpdated",
-          "enumName": "ActivityDLCUpdated",
-          "description": "Dlc details updated (e. g. price, name)"
-        },
-        {
-          "value": "ActivityNewDLCPack",
-          "enumName": "ActivityNewDLCPack",
-          "description": "New dlc pack released"
-        },
-        {
-          "value": "ActivityDLCPackUpdated",
-          "enumName": "ActivityDLCPackUpdated",
-          "description": "Dlc pack details updated (e. g. price, name, included dlcs)"
-        },
-        {
-          "value": "ActivityVersionDownloadable",
-          "enumName": "ActivityVersionDownloadable",
-          "description": "Webhook only: Version is now downloadable"
-        }
+        [
+          {
+            "value": -1,
+            "enumName": "Unknown",
+            "description": "Unknown difference type"
+          },
+          {
+            "value": 0,
+            "enumName": "ApplicationAdded",
+            "description": "Application has been added"
+          },
+          {
+            "value": 1,
+            "enumName": "ApplicationUpdated",
+            "description": "Application has been updated"
+          },
+          {
+            "value": 2,
+            "enumName": "ApplicationOfferChanged",
+            "description": "Application offer has changed"
+          },
+          {
+            "value": 3,
+            "enumName": "ApplicationOfferChangedAndUpdated",
+            "description": "Application offer has changed and application has been updated"
+          },
+          {
+            "value": 4,
+            "enumName": "AchievementAdded",
+            "description": "Achievement has been added"
+          },
+          {
+            "value": 5,
+            "enumName": "AchievementUpdated",
+            "description": "Achievement has been updated"
+          },
+          {
+            "value": 6,
+            "enumName": "OfferAdded",
+            "description": "Offer has been added"
+          },
+          {
+            "value": 7,
+            "enumName": "OfferUpdated",
+            "description": "Offer has been updated"
+          },
+          {
+            "value": 20,
+            "enumName": "OfferSaleStarted",
+            "description": "Offer sale has started"
+          },
+          {
+            "value": 21,
+            "enumName": "OfferSaleEnded",
+            "description": "Offer sale has ended"
+          },
+          {
+            "value": 8,
+            "enumName": "VersionAdded",
+            "description": "Version has been added"
+          },
+          {
+            "value": 9,
+            "enumName": "VersionUpdated",
+            "description": "Version has been updated"
+          },
+          {
+            "value": 10,
+            "enumName": "VersionDownloadable",
+            "description": "Version is downloadable"
+          },
+          {
+            "value": 11,
+            "enumName": "VersionUnpublished",
+            "description": "Version is unpublished (should not happen)"
+          },
+          {
+            "value": 12,
+            "enumName": "IapItemAdded",
+            "description": "In-app purchase item has been added"
+          },
+          {
+            "value": 13,
+            "enumName": "IapItemUpdated",
+            "description": "In-app purchase item has been updated"
+          },
+          {
+            "value": 14,
+            "enumName": "IapItemOfferChanged",
+            "description": "In-app purchase item offer has changed"
+          },
+          {
+            "value": 15,
+            "enumName": "IapItemOfferChangedAndUpdated",
+            "description": "In-app purchase item offer has changed and item has been updated"
+          },
+          {
+            "value": 16,
+            "enumName": "IapItemPackAdded",
+            "description": "In-app purchase item pack has been added"
+          },
+          {
+            "value": 17,
+            "enumName": "IapItemPackUpdated",
+            "description": "In-app purchase item pack has been updated"
+          },
+          {
+            "value": 18,
+            "enumName": "IapItemPackOfferChanged",
+            "description": "In-app purchase item pack offer has changed"
+          },
+          {
+            "value": 19,
+            "enumName": "IapItemPackOfferChangedAndUpdated",
+            "description": "In-app purchase item pack offer has changed and pack has been updated"
+          }
+        ]
+
       ]
     },
     {
@@ -190,61 +252,264 @@
         "__OculusDBType"
       ],
       "values": [
-        {
-          "value": "Application",
-          "enumName": "Application",
-          "description": "An application"
-        },
-        {
-          "value": "Version",
-          "enumName": "Version",
-          "description": "A version"
-        },
-        {
-          "value": "IAPItem",
-          "enumName": "IAPItem",
-          "description": "A dlc"
-        },
-        {
-          "value": "IAPItemPack",
-          "enumName": "IAPItemPack",
-          "description": "A dlc pack"
-        },
-        {
-          "value": "VersionAlias",
-          "enumName": "VersionAlias",
-          "description": "An alias for a version name"
-        }
+        [
+          {
+            "value": "AppImage",
+            "enumName": "AppImage",
+            "description": "Represents an application image"
+          },
+          {
+            "value": "ParentApplication",
+            "enumName": "ParentApplication",
+            "description": "Represents the parent application"
+          },
+          {
+            "value": "Application",
+            "enumName": "Application",
+            "description": "Represents an application"
+          },
+          {
+            "value": "Version",
+            "enumName": "Version",
+            "description": "Represents a version of the application"
+          },
+          {
+            "value": "IapItem",
+            "enumName": "IapItem",
+            "description": "Represents an in-app purchase item"
+          },
+          {
+            "value": "IapItemPack",
+            "enumName": "IapItemPack",
+            "description": "Represents a pack of in-app purchase items"
+          },
+          {
+            "value": "ObbBinary",
+            "enumName": "ObbBinary",
+            "description": "Represents an OBB binary file"
+          },
+          {
+            "value": "VersionAlias",
+            "enumName": "VersionAlias",
+            "description": "Represents an alias for a version"
+          },
+          {
+            "value": "Price",
+            "enumName": "Price",
+            "description": "Represents the price of an offer"
+          },
+          {
+            "value": "ReleaseChannel",
+            "enumName": "ReleaseChannel",
+            "description": "Represents a release channel of the application"
+          },
+          {
+            "value": "ApplicationTranslation",
+            "enumName": "ApplicationTranslation",
+            "description": "Represents the translation of an application"
+          },
+          {
+            "value": "ApplicationGrouping",
+            "enumName": "ApplicationGrouping",
+            "description": "Represents a grouping of applications"
+          },
+          {
+            "value": "ParentApplicationGrouping",
+            "enumName": "ParentApplicationGrouping",
+            "description": "Represents a grouping of parent applications"
+          },
+          {
+            "value": "AssetFile",
+            "enumName": "AssetFile",
+            "description": "Represents an asset file"
+          },
+          {
+            "value": "IapItemId",
+            "enumName": "IapItemId",
+            "description": "Represents the ID of an in-app purchase item"
+          },
+          {
+            "value": "Achievement",
+            "enumName": "Achievement",
+            "description": "Represents an achievement"
+          },
+          {
+            "value": "AchievementTranslation",
+            "enumName": "AchievementTranslation",
+            "description": "Represents the translation of an achievement"
+          },
+          {
+            "value": "Offer",
+            "enumName": "Offer",
+            "description": "Represents an offer"
+          },
+          {
+            "value": "Error",
+            "enumName": "Error",
+            "description": "Represents an error"
+          },
+          {
+            "value": "Difference",
+            "enumName": "Difference",
+            "description": "Represents a difference"
+          },
+          {
+            "value": "Unknown",
+            "enumName": "Unknown",
+            "description": "Represents an unknown value"
+          },
+          {
+            "value": "ApplicationNull",
+            "enumName": "ApplicationNull",
+            "description": "Represents a null application (which is not exposed in the api)"
+          }
+        ]
+
       ]
     }
   ],
   "endpoints": [
     {
-      "url": "/api/v1/blocked/blockedapps",
+      "url": "/api/v2/config",
       "method": "GET",
-      "description": "Gets all blocked apps on OculusDB",
+      "description": "Gets the OculusDB config, needs authorization",
       "parameters": [],
-      "exampleUrl": "/api/v1/blocked/blockedapps",
+      "exampleUrl": "/api/v2/admin/config",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/aliases/applications",
+      "url": "/api/v2/config",
+      "method": "POST",
+      "description": "Updates the OculusDB config, needs authorization",
+      "parameters": [],
+      "exampleUrl": "/api/v2/admin/config",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/admin/users",
+      "method": "GET",
+      "description": "Gets the OculusDB user config, needs authorization",
+      "parameters": [],
+      "exampleUrl": "/api/v2/admin/users",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/admin/users",
+      "method": "POST",
+      "description": "Updates the OculusDB user config, needs authorization",
+      "parameters": [],
+      "exampleUrl": "/api/v2/admin/users",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/blocked/blockedapps",
+      "method": "GET",
+      "description": "Gets all apps blocked on OculusDB",
+      "parameters": [],
+      "exampleUrl": "/api/v2/blocked/blockedapps",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/blocked/unblockapp",
+      "method": "DELETE",
+      "description": "Deletes an app from the blocked list, needs authorization",
+      "parameters": [],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/blocked/blockapp",
+      "method": "GET",
+      "description": "Blocks an app, needs authorization",
+      "parameters": [],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/scraping/createnode",
+      "method": "POST",
+      "description": "Creates a scraping node, needs authorization",
+      "parameters": [{
+        "name": "id",
+        "description": "Id of the scraping node",
+        "required": true
+      },
+        {
+          "name": "name",
+          "description": "Name of the scraping node",
+          "required": true
+        }],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/scraping/scrape",
+      "method": "POST",
+      "description": "Queues an app to be scraped, needs authorization",
+      "parameters": [],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/scraping/reportmissing",
+      "method": "POST",
+      "description": "Reports an missing app. OculusDB will queue it for scraping",
+      "parameters": [],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/aliases/applications",
       "method": "GET",
       "description": "Gets all applications with aliases",
       "parameters": [],
-      "exampleUrl": "/api/v1/aliases/applications",
+      "exampleUrl": "/api/v2/aliases/applications",
       "exampleResponse": {}
     },
+
     {
-      "url": "/api/coremodsproxy",
-      "method": "GET",
-      "description": "Proxy for the coremods json file on the BMBF gitlab repo",
+      "url": "/api/v2/aliases/add",
+      "method": "POST",
+      "description": "Adds aliases for versions to OculusDB, needs authorization",
       "parameters": [],
-      "exampleUrl": "/api/coremodsproxy",
+      "exampleUrl": "",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/qavsreport/<id>",
+      "url": "/api/v2/login",
+      "method": "POST",
+      "description": "Logs you in as admin or user and thus gives you more permissions via the token you get",
+      "parameters": [],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/emergency/checkaccess",
+      "method": "POST",
+      "description": "Checks if the token you have has access to OculusDB in case it's been blocked",
+      "parameters": [],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/qavs/createreport",
+      "method": "POST",
+      "description": "Uploads a QAVS report (logs) to OculusDB and gives back the log id",
+      "parameters": [],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/qavs/report/<id>",
       "method": "GET",
       "description": "Gets an QAVS report by id",
       "parameters": [
@@ -254,27 +519,50 @@
           "required": true
         }
       ],
-      "exampleUrl": "/api/v1/qavsreport/6EC8C0",
+      "exampleUrl": "/api/v2/qavs/report/EEB5A4",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/applicationanalytics/<appid>",
+      "url": "/api/v2/analytics/reportdownload",
+      "method": "POST",
+      "description": "Reports a download for download counts",
+      "parameters": [],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/analytics/applicationanalytics/<appid>",
       "method": "GET",
-      "description": "Gets OculusDB download statistics for an application",
+      "description": "",
       "parameters": [
         {
           "name": "appid",
           "description": "App you want statistics for",
           "required": true
+        },
+        {
+          "name": "after",
+          "description": "Only counts downloads after a date, ISOFormatted",
+          "required": false
         }
       ],
-      "exampleUrl": "/api/v1/applicationanalytics/2448060205267927",
+      "exampleUrl": "/api/v2/applicationanalytics/2448060205267927",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/allapps?currency=<currency>",
+      "url": "/api/v2/wip/explore",
       "method": "GET",
-      "description": "Gets a list of all apps in the database. May be slow due to the large number of apps.",
+      "description": "wip",
+      "parameters": [
+        
+      ],
+      "exampleUrl": "/api/v2/wip/explore",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/allapps?currency=<currency>",
+      "method": "GET",
+      "description": "Aggregates all apps from the database, expensive request",
       "parameters": [
         {
           "name": "currency",
@@ -282,150 +570,134 @@
           "required": false
         }
       ],
-      "exampleUrl": "/api/v1/allapps",
+      "exampleUrl": "/api/v2/allapps",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/reportmissing/<appid>",
+      "url": "/api/v2/packagename/<packagename>",
       "method": "GET",
-      "description": "Lets OculusDB know that an app is missing. It'll be attempted to scrape",
-      "parameters": [
-        {
-          "name": "appid",
-          "description": "The id of the app",
-          "required": true
-        }
-      ],
-      "exampleUrl": "/api/v1/reportmissing/2448060205267927",
-      "exampleResponse": {}
-    },
-    {
-      "url": "/api/v1/packagename/<packagename>?currency=<currency>",
-      "method": "GET",
-      "description": "Gets an android application by package name. Only android applications as only those have an package name",
+      "description": "Gets an application by package name",
       "parameters": [
         {
           "name": "packagename",
           "description": "The package name of the application",
           "required": true
-        },
-        {
-          "name": "currency",
-          "description": "Preferred currency",
-          "required": false
         }
       ],
-      "exampleUrl": "/api/v1/packagename/com.beatgames.beatsaber",
+      "exampleUrl": "/api/v2/packagename/com.beatgames.beatsaber",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/id/<id>?currency=<currency>",
+      "url": "/api/v2/id/<id>",
       "method": "GET",
-      "description": "Retrieves an object by its id",
+      "description": "Gets an object by its id",
       "parameters": [
         {
           "name": "id",
-          "description": "The id of the document to retrieve (application, dlc, dlc pack, version)",
+          "description": "The id of the object",
           "required": true
-        },
-        {
-          "name": "currency",
-          "description": "Preferred currency",
-          "required": false
         }
       ],
-      "exampleUrl": "/api/v1/id/2448060205267927",
+      "exampleUrl": "/api/v2/id/2448060205267927",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/connected/<id>?currency=<currency>",
+      "url": "/api/v2/connected/<id>",
       "method": "GET",
-      "description": "Gets all applications, versions, dlcs and dlc packs associated with an element of the specified id.",
+      "description": "Gets every object in the db that's related to the given object",
       "parameters": [
         {
           "name": "id",
-          "description": "The id of the document to retrieve (application, dlc, dlc pack, version)",
+          "description": "The id of the object",
           "required": true
-        },
-        {
-          "name": "currency",
-          "description": "Preferred currency",
-          "required": false
         }
       ],
-      "exampleUrl": "/api/v1/connected/2448060205267927",
+      "exampleUrl": "/api/v2/connect/2448060205267927",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/versions/<id>?<onlydownloadable=true>",
-      "method": "GET",
-      "description": "Retrieves an object by its id",
+      "url": "/api/v2/versions/<appid>?onlydownloadable=<onlydownloadable>",
+      "method": "POST",
+      "description": "Gets all versions of an app",
       "parameters": [
         {
-          "name": "id",
-          "description": "The id of the application",
+          "name": "appid",
+          "description": "Id of the app you want versions for",
           "required": true
         },
-
         {
           "name": "onlydownloadable",
           "description": "Whether to only return downloadable (public) versions",
           "required": false
-        }
-      ],
-      "exampleUrl": "/api/v1/versions/2448060205267927?onlydownloadable=true",
+        }],
+      "exampleUrl": "/api/v2/versions/2448060205267927?onlydownloadable=true",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/search/<query>?headsets=<headsets>&groups=<groups>&currency=<currency>",
+      "url": "/api/v2/search?q=<term>&type=<type>&skip=<skip>&limit=<limit>&groups=<groups>&appid=<appid>&supportedInAppLanguages=<languages>&differenceNameTypes=<diffTypes>",
       "method": "GET",
-      "description": "Performs an query on the database",
+      "description": "Executes a query on the db with the given term. Depending on the configuration required parameters may change",
       "parameters": [
         {
-          "name": "query",
-          "description": "The term to search",
-          "required": true
+          "name": "term",
+          "description": "The term to search for",
+          "required": false
         },
         {
-          "name": "headsets",
-          "description": "Headsets to search for, seperated by commas. If not specified, all headsets will be searched",
+          "name": "type",
+          "description": "The OculusDBType (see enums) of the objects you want to search for",
+          "required": false
+        },
+        {
+          "name": "skip",
+          "description": "The amount of objects you want to skip",
+          "required": false
+        },
+        {
+          "name": "limit",
+          "description": "The amount of objects you want to get",
           "required": false
         },
         {
           "name": "groups",
-          "description": "Groups to search for, seperated by commas. Overrides headsets. If not specified, all headsets will be searched",
+          "description": "The headset groups (see enum) you want to search for. Comma seperated",
           "required": false
         },
         {
-          "name": "currency",
-          "description": "Preferred currency",
+          "name": "appid",
+          "description": "The app id you want to search for. Relevant for things like versions",
+          "required": false
+        },
+        {
+          "name": "supportedInAppLanguages",
+          "description": "The languages you want to filter for",
+          "required": false
+        },
+        {
+          "name": "differenceNameTypes",
+          "description": "The Difference types (See enums) you want to search for",
           "required": false
         }
       ],
-      "exampleUrl": "/api/v1/search/beat%20saber?groups=Quest,PCVR",
+      "exampleUrl": "/api/v2/search?q=Beat Saber&type=Application",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/dlcs/<applicationid>?currency=<currency>",
+      "url": "/api/v2/dlcs/<appid>",
       "method": "GET",
       "description": "Gets all dlcs and dlc packs for an application",
       "parameters": [
         {
-          "name": "applicationid",
+          "name": "appid",
           "description": "The application id",
           "required": true
-        },
-        {
-          "name": "currency",
-          "description": "Preferred currency",
-          "required": false
         }
       ],
-      "exampleUrl": "/api/v1/dlcs/2448060205267927",
+      "exampleUrl": "/api/v2/dlcs/2448060205267927",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/pricehistory/<id>?currency=<currency>",
+      "url": "/api/v2/difference/pricehistory/<id>",
       "method": "GET",
       "description": "Gives you the price history of an item.",
       "parameters": [
@@ -433,92 +705,105 @@
           "name": "id",
           "description": "The id of the application, dlcs or dlcs pack you want to get the price history for.",
           "required": true
-        },
-        {
-          "name": "currency",
-          "description": "Preferred currency",
-          "required": false
         }
       ],
-      "exampleUrl": "/api/v1/pricehistory/2448060205267927",
+      "exampleUrl": "/api/v2/difference/pricehistory/2448060205267927",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/activity?count=<count>&skip=<skip>&typeconstraint=<typeconstraint>&currency=<currency>",
+      "url": "/api/v2/difference/id/<id>",
       "method": "GET",
-      "description": "Gets the latest activity",
+      "description": "Retrieves a difference by its id",
       "parameters": [
         {
-          "name": "count",
-          "description": "The amount of activities you want to get",
-          "required": false,
-          "default": "50"
-        },
-        {
-          "name": "skip",
-          "description": "The amount of activities you want to skip",
-          "required": false,
-          "default": "0"
-        },
-        {
-          "name": "typeconstraint",
-          "description": "Any of Activity Types",
-          "required": false,
-          "default": ""
-        },
-        {
-          "name": "currency",
-          "description": "Preferred currency",
-          "required": false
-        }
-      ],
-      "exampleUrl": "/api/v1/activity?count=50&skip=0&typeconstraint=ActivityNewApplication",
-      "exampleResponse": {}
-    },
-    {
-      "url": "/api/v1/activityid/<activityid>",
-      "method": "GET",
-      "description": "Gets an activity by id",
-      "parameters": [
-        {
-          "name": "activityid",
-          "description": "The id of the activity to retrieve",
+          "name": "id",
+          "description": "The id of the difference to retreive",
           "required": true
         }
       ],
-      "exampleUrl": "/api/v1/activityid/654310be0c1cc323ff756657",
+      "exampleUrl": "/api/v2/difference/id/6593e83d4a57669f2f0e1430",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/updates",
+      "url": "/api/v2/commits",
       "method": "GET",
-      "description": "Gets the 200 most recent updates to OculusDB",
+      "description": "Gets the 200 most recent commits to the OculusDB GitHub repository",
       "parameters": [],
-      "exampleUrl": "/api/v1/updates",
+      "exampleUrl": "/api/v2/commits",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/database",
+      "url": "/api/v2/database/info",
       "method": "GET",
       "description": "Gets details about the database",
       "parameters": [],
-      "exampleUrl": "/api/v1/database",
+      "exampleUrl": "/api/v2/database/info",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/headsets",
+      "url": "/api/v2/lists/headsets",
       "method": "GET",
       "description": "Gives you a list of headsets with various properties OculusDB uses",
       "parameters": [],
-      "exampleUrl": "/api/v1/headsets",
+      "exampleUrl": "/api/v2/lists/headsets",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/lists/differencetypes",
+      "method": "GET",
+      "description": "Gives you a list of difference types OculusDB uses",
+      "parameters": [],
+      "exampleUrl": "/api/v2/lists/searchcategories",
       "exampleResponse": {}
     },
     {
-      "url": "/api/v1/explore",
+      "url": "/api/v2/lists/searchcategories",
       "method": "GET",
-      "description": "WIP",
+      "description": "Gives you a list of search categories OculusDB knows about",
       "parameters": [],
-      "exampleUrl": "/api/v1/explore",
+      "exampleUrl": "/api/v2/lists/searchcategories",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/lists/categories",
+      "method": "GET",
+      "description": "Gives you a list of categories OculusDB knows about",
+      "parameters": [],
+      "exampleUrl": "/api/v2/lists/categories",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/lists/genres",
+      "method": "GET",
+      "description": "Gives you a list of genres OculusDB knows about",
+      "parameters": [],
+      "exampleUrl": "/api/v2/lists/genres",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/webhooks/all",
+      "method": "GET",
+      "description": "Gets all webhooks, needs authorization",
+      "parameters": [],
+      "exampleUrl": "/api/v2/webhooks/all",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/webhooks/createorupdate",
+      "method": "POST",
+      "description": "Creates or updates an webhook, needs authorization",
+      "parameters": [],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/webhooks/delete",
+      "method": "DELETE",
+      "description": "Deletes an webhook, needs authorization",
+      "parameters": [],
+      "exampleUrl": "",
       "exampleResponse": {}
     }
   ]

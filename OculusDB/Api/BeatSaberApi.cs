@@ -10,7 +10,7 @@ public class BeatSaberApi
 {
     public static void SetupRoutes(HttpServer server)
     {
-        
+        return;
         server.AddRouteRedirect("GET", "/api/coremodsdownload", "/api/v2/games/2448060205267927/coremodsdownload", true);
         server.AddRoute("GET", "/api/v2/games/2448060205267927/coremodsdownload", new Func<ServerRequest, bool>(request =>
         {
