@@ -117,7 +117,7 @@ let APIDocs = () => {
                     </For>
 
                     <h2>Example Request</h2>
-                    <p>{ item.method } { item.url }</p>
+                    <p>{ item.method } { item.exampleUrl }</p>
 
                     <div ref={( el ) => responseElementList.push(el)}></div>
                   </div>

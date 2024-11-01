@@ -365,80 +365,11 @@
   ],
   "endpoints": [
     {
-      "url": "/api/v2/config",
-      "method": "GET",
-      "description": "Gets the OculusDB config, needs authorization",
-      "parameters": [],
-      "exampleUrl": "/api/v2/admin/config",
-      "exampleResponse": {}
-    },
-    {
-      "url": "/api/v2/config",
-      "method": "POST",
-      "description": "Updates the OculusDB config, needs authorization",
-      "parameters": [],
-      "exampleUrl": "/api/v2/admin/config",
-      "exampleResponse": {}
-    },
-    {
-      "url": "/api/v2/admin/users",
-      "method": "GET",
-      "description": "Gets the OculusDB user config, needs authorization",
-      "parameters": [],
-      "exampleUrl": "/api/v2/admin/users",
-      "exampleResponse": {}
-    },
-    {
-      "url": "/api/v2/admin/users",
-      "method": "POST",
-      "description": "Updates the OculusDB user config, needs authorization",
-      "parameters": [],
-      "exampleUrl": "/api/v2/admin/users",
-      "exampleResponse": {}
-    },
-
-    {
       "url": "/api/v2/blocked/blockedapps",
       "method": "GET",
       "description": "Gets all apps blocked on OculusDB",
       "parameters": [],
       "exampleUrl": "/api/v2/blocked/blockedapps",
-      "exampleResponse": {}
-    },
-
-    {
-      "url": "/api/v2/blocked/unblockapp",
-      "method": "DELETE",
-      "description": "Deletes an app from the blocked list, needs authorization",
-      "parameters": [],
-      "exampleUrl": "",
-      "exampleResponse": {}
-    },
-
-    {
-      "url": "/api/v2/blocked/blockapp",
-      "method": "GET",
-      "description": "Blocks an app, needs authorization",
-      "parameters": [],
-      "exampleUrl": "",
-      "exampleResponse": {}
-    },
-
-    {
-      "url": "/api/v2/scraping/createnode",
-      "method": "POST",
-      "description": "Creates a scraping node, needs authorization",
-      "parameters": [{
-        "name": "id",
-        "description": "Id of the scraping node",
-        "required": true
-      },
-        {
-          "name": "name",
-          "description": "Name of the scraping node",
-          "required": true
-        }],
-      "exampleUrl": "",
       "exampleResponse": {}
     },
 
@@ -465,23 +396,6 @@
       "description": "Gets all applications with aliases",
       "parameters": [],
       "exampleUrl": "/api/v2/aliases/applications",
-      "exampleResponse": {}
-    },
-
-    {
-      "url": "/api/v2/aliases/add",
-      "method": "POST",
-      "description": "Adds aliases for versions to OculusDB, needs authorization",
-      "parameters": [],
-      "exampleUrl": "",
-      "exampleResponse": {}
-    },
-    {
-      "url": "/api/v2/login",
-      "method": "POST",
-      "description": "Logs you in as admin or user and thus gives you more permissions via the token you get",
-      "parameters": [],
-      "exampleUrl": "",
       "exampleResponse": {}
     },
 
@@ -542,16 +456,6 @@
         }
       ],
       "exampleUrl": "/api/v2/applicationanalytics/2448060205267927",
-      "exampleResponse": {}
-    },
-    {
-      "url": "/api/v2/wip/explore",
-      "method": "GET",
-      "description": "wip",
-      "parameters": [
-        
-      ],
-      "exampleUrl": "/api/v2/wip/explore",
       "exampleResponse": {}
     },
     {
@@ -794,6 +698,101 @@
       "description": "Deletes an webhook, needs authorization",
       "parameters": [],
       "exampleUrl": "",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/blocked/unblockapp",
+      "method": "DELETE",
+      "description": "Deletes an app from the blocked list, needs authorization",
+      "parameters": [],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/blocked/blockapp",
+      "method": "POST",
+      "description": "Blocks an app, needs authorization",
+      "parameters": [],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/scraping/createnode?name=<name>&id=<id>",
+      "method": "POST",
+      "description": "Creates a scraping node, needs authorization",
+      "parameters": [{
+        "name": "id",
+        "description": "Id of the scraping node",
+        "required": true
+      },
+        {
+          "name": "name",
+          "description": "Name of the scraping node",
+          "required": true
+        }],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/wip/explore",
+      "method": "GET",
+      "description": "wip",
+      "parameters": [
+
+      ],
+      "exampleUrl": "/api/v2/wip/explore",
+      "exampleResponse": {}
+    },
+
+    {
+      "url": "/api/v2/aliases/add",
+      "method": "POST",
+      "description": "Adds aliases for versions to OculusDB, needs authorization",
+      "parameters": [],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/login",
+      "method": "POST",
+      "description": "Logs you in as admin or user and thus gives you more permissions via the token you get",
+      "parameters": [],
+      "exampleUrl": "",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/admin/config",
+      "method": "GET",
+      "description": "Gets the OculusDB config, needs authorization",
+      "parameters": [],
+      "exampleUrl": "/api/v2/admin/config",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/admin/config",
+      "method": "POST",
+      "description": "Updates the OculusDB config, needs authorization",
+      "parameters": [],
+      "exampleUrl": "/api/v2/admin/config",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/admin/users",
+      "method": "GET",
+      "description": "Gets the OculusDB user config, needs authorization",
+      "parameters": [],
+      "exampleUrl": "/api/v2/admin/users",
+      "exampleResponse": {}
+    },
+    {
+      "url": "/api/v2/admin/users",
+      "method": "POST",
+      "description": "Updates the OculusDB user config, needs authorization",
+      "parameters": [],
+      "exampleUrl": "/api/v2/admin/users",
       "exampleResponse": {}
     }
   ]
