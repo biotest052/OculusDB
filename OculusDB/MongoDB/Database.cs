@@ -120,6 +120,7 @@ public class OculusDBDatabase
         applicationNullCollection = oculusDBDatabase.GetCollection<ScrapingNodeApplicationNull>("applicationNulls");
         
         // indexes
+        Logger.Log("Creating indexes");
         CreateAscendingIndex(achievementCollection, x => x.id);
         CreateTextIndex(achievementCollection, x => x.searchTitle);
         CreateTextIndex(achievementCollection, x => x.apiName);
@@ -155,6 +156,7 @@ public class OculusDBDatabase
         CreateAscendingIndex(versionCollection, x => x.version);
         CreateAscendingIndex(versionCollection, x => x.versionCode);
         
+        Logger.Log("Created indexes");
 
         UpdateBlockedAppsCache();
     }
