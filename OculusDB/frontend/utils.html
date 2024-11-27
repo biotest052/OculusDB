@@ -17,7 +17,7 @@
         <h3>Set Oculus token for downloads</h3>
         <p>You can save an Oculus token in your browser below to use the download button on OculusDB. It will only be saved locally and not sent anywhere.</p>
         <b>You must also install the <a href="https://chromewebstore.google.com/detail/incognito-url-opener/mdehanmmmmflmlgobaogkgepjldhpibm">Incognito url opener chrome extension</a> and add <code>securecdn.oculus.com</code> as url</b>
-        <a href="https://computerelite.github.io/tools/Oculus/ObtainTokenNew.html">Guide to get your token</a>
+        <a href="https://computerelite.github.io/tools/Oculus/ObtainToken.html">Guide to get your token</a>
         <input type="password" placeholder="Oculus token" id="oculustoken">
 
         <input type="button" value="Save in browser" onmousedown="MouseDown(event)" onmouseup="if(MouseUp(event)) SaveToken()">
@@ -89,7 +89,7 @@
     
     function SaveToken(showMsg = true) {
         var token = document.getElementById("oculustoken").value
-        if(!token.startsWith("FR")) {
+        if(!token.startsWith("FR") && !token.startsWith("OC")) {
             alert("Your token is not correct. Please refer to the token guide to get your token.")
             return
         }
