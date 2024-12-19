@@ -242,6 +242,14 @@ public class ScrapingNodeMongoDBManager
 
     public static void IncScrapingNodeContribution(ScrapingContribution scrapingContribution)
     {
+        ScrapingContribution s = scrapingNodeContributions.Find(x => x.scrapingNode.scrapingNodeId == scrapingContribution.scrapingNode.scrapingNodeId).FirstOrDefault();
+        if (s == null)
+        {
+            // Create contribution if it doesn't exist
+            s = new ScrapingContribution();
+            s.scrapingNode = scrapingContribution.scrapingNode;
+            scrapingNodeContributions.InsertOne(s);
+        }
         UpdateDefinition<ScrapingContribution> update = Builders<ScrapingContribution>.Update
             .Inc(x => x.appsQueuedForScraping, scrapingContribution.appsQueuedForScraping)
             .Inc(x => x.taskResultsProcessed, scrapingContribution.taskResultsProcessed);
