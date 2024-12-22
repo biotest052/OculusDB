@@ -97,6 +97,7 @@ namespace OculusDB.Database
         public string displayName { get { return display_name; } set { display_name = value; } }
         public string display_name { get; set; } = "";
         public string display_long_description { get; set; } = "";
+        public string display_long_description_unprocessed { get; set; } = "";
         public List<string> genre_names { get; set; } = new List<string>();
         public bool has_in_app_ads { get; set; } = false;
         public string id { get; set; } = "";

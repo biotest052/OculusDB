@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Net;
+using System.Text.RegularExpressions;
 using ComputerUtils.Logging;
 using ComputerUtils.VarUtils;
 using MongoDB.Bson;
@@ -386,6 +387,8 @@ public class ScrapingManaging
             // New Application activity
             bool isNew = false;
             BsonDocument lastEvent = MongoDBInteractor.GetLastEventWithIDInDatabase(a.id);
+            a.display_long_description_unprocessed = a.display_long_description;
+            a.display_long_description = Regex.Replace(a.display_long_description, @"!\[.+\]\(.+\)", "[media]");
             if (lastEvent == null)
             {
                 DBActivityNewApplication e = new DBActivityNewApplication();
