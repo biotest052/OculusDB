@@ -865,7 +865,7 @@ public class FrontendServer
             request.SendStringReplace(File.ReadAllText(frontend + "id.html").Replace("{0}", request.pathDiff), "text/html", 200, replace);
             return true;
         }), true, true, true, true);
-        server.AddRoute("GET", "/activity", new Func<ServerRequest, bool>(request =>
+        server.AddRoute("GET", "/activity/", new Func<ServerRequest, bool>(request =>
         {
             if (!DoesUserHaveAccess(request)) return true;
             request.SendStringReplace(File.ReadAllText(frontend + "activity.html").Replace("{0}", request.pathDiff), "text/html", 200, replace);
