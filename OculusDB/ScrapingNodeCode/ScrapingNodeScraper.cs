@@ -626,7 +626,6 @@ public class ScrapingNodeScraper
             foreach (Application a in OculusInteractor.EnumerateAllApplications(h))
             {
                 apps++;
-                Logger.Log(a.displayName + " " + a.id);
                 appsToScrape.Add(new AppToScrape { currency = GetCurrency(), headset = h, appId = a.id, priority = false, imageUrl = a.cover_square_image.uri });
             }
         } catch(Exception e)
