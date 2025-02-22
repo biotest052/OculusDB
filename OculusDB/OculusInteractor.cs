@@ -31,10 +31,9 @@ namespace OculusDB
             }
             while (s.data.node.all_items.page_info.has_next_page)
             {
-                string cursor = "";
+                string cursor = s.data.node.all_items.page_info.end_cursor;
                 foreach (Node<Application> e in s.data.node.all_items.edges)
                 {
-                    cursor = e.cursor;
                     i++;
                     yield return e.node;
                 }
