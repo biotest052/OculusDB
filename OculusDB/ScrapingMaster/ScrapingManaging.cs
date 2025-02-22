@@ -138,8 +138,16 @@ public class ScrapingManaging
                     processingRn[scrapingNodeAuthenticationResult.scrapingNode.scrapingNodeId].Done();
                     return r;
                 }
-                Logger.Log("Found apps to scrape. Adding them to the DB.");
-                ScrapingNodeMongoDBManager.AddAppsToScrape(taskResult.appsToScrape, scrapingNodeAuthenticationResult.scrapingNode);
+
+                if (taskResult.appsToScrape.Count > 0)
+                {
+                    Logger.Log("Found apps to scrape. Adding them to the DB.");
+                    ScrapingNodeMongoDBManager.AddAppsToScrape(taskResult.appsToScrape, scrapingNodeAuthenticationResult.scrapingNode);
+                }
+                else
+                {
+                    Logger.Log("No new apps present in task result. Ignoring");
+                }
                 r.processed = true;
                 r.processedCount = taskResult.appsToScrape.Count;
                 r.msg = "Added " + taskResult.appsToScrape.Count + " apps to scrape. Thanks for the cooperation.";
