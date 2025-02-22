@@ -148,6 +148,8 @@ public class ScrapingManaging
                 {
                     Logger.Log("No new apps present in task result. Ignoring");
                 }
+
+                isAppAddingRunning[currency].Unlock(scrapingNodeAuthenticationResult.scrapingNode);
                 r.processed = true;
                 r.processedCount = taskResult.appsToScrape.Count;
                 r.msg = "Added " + taskResult.appsToScrape.Count + " apps to scrape. Thanks for the cooperation.";

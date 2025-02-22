@@ -230,7 +230,7 @@ public class ScrapingNodeMongoDBManager
                 appsToScrapeFiltered.Add(x);
             }
         });
-        MongoDBInteractor.appsToScrape.InsertMany(appsToScrapeFiltered);
+        if(appsToScrapeFiltered.Count > 0) MongoDBInteractor.appsToScrape.InsertMany(appsToScrapeFiltered);
         // Update scraping node stats
         ScrapingContribution contribution = new ScrapingContribution();
         contribution.scrapingNode = scrapingNode;
