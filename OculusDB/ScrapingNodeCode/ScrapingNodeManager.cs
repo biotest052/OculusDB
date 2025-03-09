@@ -76,7 +76,7 @@ public class ScrapingNodeManager
                 scrapingTask = ScrapingTaskType.ScrapeApp,
                 appToScrape = new AppToScrape
                 {
-                    headset = Headset.MONTEREY,
+                    headset = Headset.HOLLYWOOD,
                     appId = config.appId,
                     priority = config.isPriorityScrape,
                     imageUrl = ""
