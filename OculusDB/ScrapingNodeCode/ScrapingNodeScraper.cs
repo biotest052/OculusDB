@@ -245,18 +245,18 @@ public class ScrapingNodeScraper
             {
                 bool doPriorityForThisVersion = app.priority;
                 DBVersion? oldEntry = connected.FirstOrDefault(x => x.id == b.id);
-                TimeSpan timeDelta = DateTime.UtcNow - oldEntry.lastPriorityScrape;
-                TimeSpan betweenScrapes = timeBetweenScrapes;
-                // Make sure that the time between scrapes increases at a steady pace to not stress Oculus's servers too much
-                if (timeDelta.TotalDays > 20)
+                if (oldEntry != null)
                 {
-                    betweenScrapes = timeDelta;
-                    if (betweenScrapes.TotalDays > 600) betweenScrapes = new TimeSpan(600, 0, 0, 0);
-                }
-                
-                if (doPriorityForThisVersion)
-                {
-                    if (oldEntry != null)
+                    TimeSpan timeDelta = DateTime.UtcNow - oldEntry.lastPriorityScrape;
+                    TimeSpan betweenScrapes = timeBetweenScrapes;
+                    // Make sure that the time between scrapes increases at a steady pace to not stress Oculus's servers too much
+                    if (timeDelta.TotalDays > 20)
+                    {
+                        betweenScrapes = timeDelta;
+                        if (betweenScrapes.TotalDays > 600) betweenScrapes = new TimeSpan(600, 0, 0, 0);
+                    }
+
+                    if (doPriorityForThisVersion)
                     {
                         // Only do priority scrape if last scrape is older than 2 days
                         if (timeDelta < betweenScrapes)
@@ -298,7 +298,7 @@ public class ScrapingNodeScraper
                 if (b != null && doPriorityForThisVersion)
                 {
                     Logger.Log("Scraping v " + b.version, LoggingType.Important);
-                    
+
                 }
                 OculusBinary bin = b;
                 bool wasNull = false;
@@ -311,7 +311,7 @@ public class ScrapingNodeScraper
                         wasNull = true;
                         bin = b;
                     }
-                    if(bin.obb_binary == null && b.obb_binary != null) bin.obb_binary = b.obb_binary;
+                    if (bin.obb_binary == null && b.obb_binary != null) bin.obb_binary = b.obb_binary;
                 }
                 catch
                 {
@@ -323,7 +323,7 @@ public class ScrapingNodeScraper
                         b.obb_binary = info.data.node.obb_binary;
                     }
                 }
-               
+
 
                 // Preserve changelogs and obbs across scrapes by:
                 // - Don't delete versions after scrape
