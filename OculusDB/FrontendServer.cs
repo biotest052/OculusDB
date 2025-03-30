@@ -96,7 +96,7 @@ public class FrontendServer
         server = httpServer;
 		server.StartServer(config.port);
 		server.logRequests = true;
-        server.maxRamUsage = 700 * 1024 * 1024; // 700 MB
+        server.maxRamUsage = 700 * 1024 * 1024; // 700 MiB
         Logger.Log("Working directory is " + OculusDBEnvironment.workingDir);
         Logger.Log("data directory is " + OculusDBEnvironment.dataDir);
         FileManager.CreateDirectoryIfNotExisting(OculusDBEnvironment.dataDir + "images");
@@ -335,8 +335,8 @@ public class FrontendServer
             request.SendStringReplace(File.ReadAllText(frontend + "admin.html"), "text/html", 200, replace);
             return true;
         }), true, true, true);
-        server.AddRouteFile("/login", frontend + "login.html", replace, true, true, true, 0, true);
-        server.AddRouteFile("/style.css", frontend + "style.css", replace, true, true, true, 0, true);
+        server.AddRouteFile("/login", frontend + "login.html", replace, true, true, !OculusDBEnvironment.debugging, 0, true);
+        server.AddRouteFile("/style.css", frontend + "style.css", replace, true, true, !OculusDBEnvironment.debugging, 0, true);
         server.AddRoute("POST", "/api/updateserver/", new Func<ServerRequest, bool>(request =>
         {
             if (!IsUserAdmin(request)) return true;
@@ -839,18 +839,19 @@ public class FrontendServer
         });
         */
 
-        server.AddRouteFile("/", frontend + "home.html", replace, true, true, true, accessCheck);
-		server.AddRouteFile("/alias", frontend + "alias.html", replace, true, true, true, accessCheck);
-		server.AddRouteFile("/recentactivity", frontend + "recentactivity.html", replace, true, true, true, accessCheck);
-        server.AddRouteFile("/server", frontend + "server.html", replace, true, true, true, accessCheck);
+        server.AddRouteFile("/", frontend + "home.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+		server.AddRouteFile("/alias", frontend + "alias.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+		server.AddRouteFile("/recentactivity", frontend + "recentactivity.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/server", frontend + "server.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
         
-        server.AddRouteFile("/downloadstats", frontend + "downloadstats.html", replace, true, true, true, accessCheck);
-        server.AddRouteFile("/search", frontend + "search.html", replace, true, true, true, accessCheck);
-        server.AddRouteFile("/logo", frontend + "logo.png", true, true, true, accessCheck);
-        server.AddRouteFile("/notfound.jpg", frontend + "notfound.jpg", true, true, true, accessCheck);
-        server.AddRouteFile("/favicon.ico", frontend + "favicon.png", true, true, true, accessCheck);
-        server.AddRouteFile("/privacy", frontend + "privacy.html", replace, true, true, true, accessCheck);
-        server.AddRouteFile("/saved", frontend + "saved.html", replace, true, true, true, accessCheck);
+        server.AddRouteFile("/downloadstats", frontend + "downloadstats.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/search", frontend + "search.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/deal", frontend + "deal.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/logo", frontend + "logo.png", true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/notfound.jpg", frontend + "notfound.jpg", true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/favicon.ico", frontend + "favicon.png", true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/privacy", frontend + "privacy.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/saved", frontend + "saved.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
         
         server.AddRoute("GET", "/console", new Func<ServerRequest, bool>(request =>
         {
@@ -864,30 +865,30 @@ public class FrontendServer
             if (!DoesUserHaveAccess(request)) return true;
             request.SendStringReplace(File.ReadAllText(frontend + "id.html").Replace("{0}", request.pathDiff), "text/html", 200, replace);
             return true;
-        }), true, true, true, true);
+        }), true, true, true, !OculusDBEnvironment.debugging);
         server.AddRoute("GET", "/activity/", new Func<ServerRequest, bool>(request =>
         {
             if (!DoesUserHaveAccess(request)) return true;
             request.SendStringReplace(File.ReadAllText(frontend + "activity.html").Replace("{0}", request.pathDiff), "text/html", 200, replace);
             return true;
         }), true, true, true, true);
-        server.AddRouteFile("/explore", frontend + "explore.html", replace, true, true, true, accessCheck);
-        server.AddRouteFile("/script.js", frontend + "script.js", replace, true, true, true, accessCheck);
-        server.AddRouteFile("/api/docs", frontend + "api.html", replace, true, true, true, accessCheck);
-        server.AddRouteFile("/jsonview.js", frontend + "jsonview.js", replace, true, true, true, accessCheck);
-        server.AddRouteFile("/guide", frontend + "guide.html", replace, true, true, true, accessCheck);
-        server.AddRouteFile("/supportus", frontend + "supportus.html", replace, true, true, true, accessCheck);
-		server.AddRouteFile("/qavslogs", frontend + "qavsloganalyser.html", replace, true, true, true, accessCheck);
+        server.AddRouteFile("/explore", frontend + "explore.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/script.js", frontend + "script.js", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/api/docs", frontend + "api.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/jsonview.js", frontend + "jsonview.js", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/guide", frontend + "guide.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/supportus", frontend + "supportus.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+		server.AddRouteFile("/qavslogs", frontend + "qavsloganalyser.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
 
 		// for all the annoying people out there
 		server.AddRouteRedirect("GET", "/idiot", "/guide/quest");
 
-        server.AddRouteFile("/guide/quest", frontend + "guidequest.html", replace, true, true, true, accessCheck);
-        server.AddRouteFile("/guide/quest/pc", frontend + "guidequest_PC.html", replace, true, true, true, accessCheck);
-        server.AddRouteFile("/guide/quest/qavs", frontend + "guidequest_QAVS.html", replace, true, true, true, accessCheck);
-        server.AddRouteFile("/guide/quest/sqq", frontend + "guidequest_SQQ.html", replace, true, true, true, accessCheck);
-        server.AddRouteFile("/assets/sq.png", frontend + "sq.png", true, true, true, accessCheck);
-        server.AddRouteFile("/assets/discord.svg", frontend + "discord.svg", true, true, true, accessCheck);
+        server.AddRouteFile("/guide/quest", frontend + "guidequest.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/guide/quest/pc", frontend + "guidequest_PC.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/guide/quest/qavs", frontend + "guidequest_QAVS.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/guide/quest/sqq", frontend + "guidequest_SQQ.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/assets/sq.png", frontend + "sq.png", true, true, !OculusDBEnvironment.debugging, accessCheck);
+        server.AddRouteFile("/assets/discord.svg", frontend + "discord.svg", true, true, !OculusDBEnvironment.debugging, accessCheck);
         server.AddRoute("GET", "/fonts/OpenSans", request =>
         {
             ProxyChangeFontUrl("https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic", request);
@@ -904,7 +905,7 @@ public class FrontendServer
             return true;
         }, false, true, true, true, 3600, true, 0);
 
-        server.AddRouteFile("/guide/rift", frontend + "guiderift.html", replace, true, true, true, accessCheck);
+        server.AddRouteFile("/guide/rift", frontend + "guiderift.html", replace, true, true, !OculusDBEnvironment.debugging, accessCheck);
         server.AddRoute("GET", "/api/api.json", new Func<ServerRequest, bool>(request =>
         {
             if (!DoesUserHaveAccess(request)) return true;

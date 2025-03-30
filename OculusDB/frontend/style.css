@@ -8,6 +8,92 @@
     left: 0;
 }
 
+.overlay
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.popup
+{
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    margin: 0 50px;
+}
+.hidden
+{
+    display: none;
+}
+.buy-button
+{
+    background: #202324;
+    color: #63fac3;
+    font-size: 24px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+.close-button
+{
+    background: #202324;
+    color: #333;
+    font-size: 10px;
+    padding: 2px 5px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+.h3Popup
+{
+    color: #333;
+    line-height: 1em;
+    font-weight: 300;
+    font-size: 2em;
+    padding: 0 !important;
+}
+.h2Popup
+{
+    font-size: 4em;
+    color: #ff4d54;
+    line-height: 1em;
+}
+.strikethroughPrice {
+    text-decoration: line-through;
+    color: #ff4d54;
+}
+.dealPrice {
+    color: #17700d;
+}
+.h2Popup span
+{
+    color: #333;
+    font-size: 0.75em;
+    text-transform: uppercase;
+}
+.pdeal
+{
+    color: #ff4d54;
+    font-weight: 300;
+}
+
+.black {
+    color: #000000;
+}
+
 @keyframes flashbang {
     0% {
         background-color: #00000000;

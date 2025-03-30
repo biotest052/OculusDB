@@ -123,6 +123,7 @@ if(params.has("isqavs")) localStorage.isQAVS = "true"
 if(params.has("isoculusdowngrader")) localStorage.isOculusDowngrader = "true"
 
 // Add analytics
+if(isAprilFools()) ProcessAprilFoolsDeal();
 if(!localStorage.isQAVS) {
     var script = document.createElement("script")
     script.src = "https://analytics.rui2015.me/analytics.js?origin=" + location.origin
@@ -138,10 +139,11 @@ if(!localStorage.isQAVS) {
         }
     ]
 
-    if(GetRandomBool(isAprilFools() ? 10 : 1000) || params.has("dialupdownload")) jokeconfig.dialupdownload = true
-    if(GetRandomBool(isAprilFools() ? 10 : 1000) || params.has("flashbang")) jokeconfig.flashbang = true
-    if(GetRandomBool(isAprilFools() ? 30 : 1000) || params.has("popupad")) jokeconfig.popupad = true
-    if(GetRandomBool(isAprilFools() ? 30 : 1000) || params.has("supportus")) jokeconfig.supportUs = true
+    if(GetRandomBool(isAprilFools() ? 5 : 1000) || params.has("dialupdownload")) jokeconfig.dialupdownload = true
+    if(GetRandomBool(isAprilFools() ? 40 : 1000) || params.has("flashbang")) jokeconfig.flashbang = true
+    if(GetRandomBool(1000) || params.has("popupad")) jokeconfig.popupad = true
+    if(GetRandomBool(1000) || params.has("supportus")) jokeconfig.supportUs = true
+    if(isAprilFools() && GetRandomBool(40) || params.has("supportus")) setupOwoify()
 
     if(jokeconfig.flashbang) {
         document.body.innerHTML += `<div class="flashbang"></div>`
@@ -170,12 +172,13 @@ if(!localStorage.isQAVS) {
     /// JOKES END
 
     // add survey
-    
+    /*
     document.body.innerHTML += `<div class="leftBottom" id="surveyPopup">
     Mind taking 5 minute to give feedback on OculusDB and its related programs?
     <input type="button" value="Go to Survey" onclick="window.open('https://forms.gle/xbBKRgfkMbXrFtLp9', '_blank')">
     <input type="button" value="Close popup" onclick="document.getElementById('surveyPopup').remove()">
     </div>`
+    */
     
 }
 
@@ -281,7 +284,7 @@ function GetValuesOFCheckboxes(options) {
     return filter.join(",")
 }
 
-function PopUp(html) {
+function PopUp(html, popupClass = "popUpContent") {
     var popup = document.getElementById("popup")
     if(popup) popup.remove();
     var p = document.createElement("div")
@@ -291,7 +294,7 @@ function PopUp(html) {
         ClosePopUp(event)
     }
     p.innerHTML+= `
-        <div class="popUpContent">${html}</div>
+        <div class="${popupClass}">${html}</div>
     `
     document.body.appendChild(p)
 }
@@ -1308,6 +1311,9 @@ function RealDownload(id, openObb) {
 }
 
 function AndroidDownload(id, parentApplicationId,parentApplicationName, version, isObb = false, obbIds = "", obbNames = "") {
+
+    if(!DownloadCheck()) return
+    
     var obbs = []
     if(obbIds) {
         var obbIdsSplit = obbIds.split(",")
@@ -1448,6 +1454,7 @@ function ObbDownloadPopUp() {
 }
 
 function ProxyDownload(id) {
+    if(!DownloadCheck()) return
     window.open("https://meta.phazed.xyz/?bin_id=" + id, "_blank")
 }
 
@@ -1463,6 +1470,7 @@ function GetDownloadButtonVersion(downloadable, id, hmd, binaryType, parentAppli
 }
 
 function RiftDownloadPopUp(appid, versionid) {
+    if(!DownloadCheck()) return
     PopUp(`
         <div>
             <b>Rift apps can not be downloaded via this website. To download Rift apps follow the following instructions:</b>
@@ -1480,7 +1488,28 @@ function RiftDownloadPopUp(appid, versionid) {
     `)
 }
 
+function dealPopUpBuyPleaseUwU(deal, reason) {
+    PopUp(`<div class="overlay" id="popup">
+    <div class="popup">
+        <button class="close-button" onclick="closePopup()">X</button>
+        <div class="h3Popup">You have not bought the ${deal} deal</div>
+        <p class="black">You need it to ${reason} from OculusDB. Please buy it below</p>
+        <button class="buy-button" onclick="location.href = '/deal'">Get The Deal</button>
+    </div>
+</div>`, "overlay")
+}
+
+function DownloadCheck() {
+    if(!isAprilFools()) return true;
+    let deny = !hasDeal("download")
+    if(deny) {
+        dealPopUpBuyPleaseUwU("download", "download versions")
+    }
+    return !deny
+}
+
 function AndroidDownloadPopUp(appid, versionid, hmd) {
+    if(!DownloadCheck()) return
     PopUp(`
         <div>
             <b>To download apps via Oculus Downgrader follow the following instructions:</b>
@@ -1613,15 +1642,35 @@ function OwOify(text) {
     return words.join(" ");
 }
 function isAprilFools() {
-
+    //return true;
     var now = new Date();
     return now.getMonth() == 3 && now.getDate() == 1
 }
-if(isAprilFools()) {
+
+function hasDeal(deal) {
+    return localStorage.deal && localStorage.deal.includes(deal)
+}
+
+function setupOwoify() {
     OwO()
     setInterval(OwO, 100)
 }
 
+
+function ProcessAprilFoolsDeal() {
+    if(!localStorage.deal && !location.pathname.includes("deal")) {
+        // no deal yet, ask for it
+        PopUp(`<div class="overlay" id="popup">
+    <div class="popup">
+        <button class="close-button" onclick="closePopup()">X</button>
+        <div class="h3Popup">Special Offer</div>
+        <div class="h2Popup">80<sup>%</sup><span> Off</span></div>
+        <p class="pdeal">Capitalism is cool, that's why OculusDB now costs exactly 1.40€</p>
+        <button class="buy-button" onclick="window.location.href = '/deal'">Get The Deal</button>
+    </div>
+</div>`, "overlay")
+    }
+}
 function OwO() {
 
     var allTags = document.querySelectorAll('*:not(:has(:not(br):not(b):not(i)))');

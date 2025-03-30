@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {meta}
+    <link rel="stylesheet" href="/style.css" >
+    <title>Deal - OculusDB</title>
+    <meta name="title" content="Aliases - OculusDB">
+    <meta name="description" content="Page to create aliases for game version names">
+</head>
+<body>
+<noscript>This page relies on javascript. Please enable javascript on your browser</noscript>
+<div class="content">
+    <h2>OculusDB deals</h2>
+    <p>Capitalism has made it's way to OculusDB! As we're just starting out we got an exclusive deal for all users.</p>
+    <div class="popup">
+        <div class="h3Popup">Special Offer</div>
+        <div class="h2Popup">80<sup>%</sup><span> Off</span></div>
+    </div>
+    <p>We got several tiers for all your needs</p>
+    <div style="display: flex; flex-wrap: wrap" id="deals">
+    </div>
+</div>
+<script src="/script.js"></script>
+<script>
+    const deals = {
+        details: {
+            title: "Details",
+            strikethrough: "10 €",
+            price: "2 €",
+            description: "See all the details of applications"
+        },
+        search: {
+            title: "Search",
+            strikethrough: "42 €",
+            price: "8.40 €",
+            description: "Be able to search OculusDB"
+        },
+        download: {
+            title: "Download",
+            strikethrough: "142 €",
+            price: "28.40 €",
+            description: "Do the holy grail of downgrading, download an old version"
+        },
+        download_stats: {
+            title: "Download stats",
+            strikethrough: "1 €",
+            price: "0.20 €",
+            description: "See download statistics"
+        },
+        activity: {
+            title: "Activity",
+            strikethrough: "13.69 €",
+            price: "2.938 €",
+            description: "See activity on OculusDB (aka change tracking)"
+        },
+        
+    }
+    html = ``
+    for(const [key, value] of Object.entries(deals)) {
+        html += `
+        <div class="popup">
+            <h1 class="black">${value.title}</h1>
+            <p class="black">${value.description}</p>
+            <h2 class="strikethroughPrice">${value.strikethrough}</h2>
+            <h2 class="dealPrice">${value.price}</h2>
+            ${hasDeal(key) ? `<h2 class="dealPrice">You already have this deal</h2>` : `<button class="buy-button" onclick="deal('${key}')">Get The Deal</button>`}
+            
+        </div>`
+    }
+    document.getElementById("deals").innerHTML = html
+    
+    function deal(type) {
+        PopUp(`<div class="overlay" id="popup">
+    <div class="popup">
+        <button class="close-button" onclick="closePopup()">X</button>
+        <div class="h3Popup">Proceed to buy ${type}</div>
+        <p class="black">Due to an issue in our payment system you will be granted the deal without any charges. We are sorry for the inconvenience and will provide a way to pay later</p>
+        <button class="buy-button" onclick="buy('${type}')">Get The Deal</button>
+    </div>
+</div>`, "overlay")
+    }
+    
+    function buy(type) {
+        ClosePopUp()
+        localStorage.deal += `,${type}`
+        PopUp(`<div class="overlay" id="popup">
+    <div class="popup">
+        <button class="close-button" onclick="closePopup()">X</button>
+        <div class="h3Popup">You've got the deal. Thanks for your collaboration!</div>
+        <button class="buy-button" onclick="window.location.href = '/'">Close</button>
+    </div>
+</div>`, "overlay")
+    }
+</script>
+</body>
+</html>

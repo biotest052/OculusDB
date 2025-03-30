@@ -41,6 +41,10 @@
 
             GetActivityById(id).then(res => {
                 activity = res
+                if(isAprilFools() && !hasDeal("activity")) {
+                    dealPopUpBuyPleaseUwU("activity", "see activity")
+                    return
+                }
                 document.getElementById("type").innerHTML = activity.__OculusDBType
                 document.getElementById("id").innerHTML = activity.__id
                 document.getElementById("lastUpdated").innerHTML = new Date(activity.__lastUpdated).toLocaleString()

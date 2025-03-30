@@ -40,8 +40,8 @@
                 window.location.href = "?" + params.toString()
             }
 
-
-            fetch("/api/v1/applicationanalytics?skip=" + skip).then(res => res.json().then(res => {
+            if(isAprilFools() && !hasDeal("download_stats")) dealPopUpBuyPleaseUwU("download stats", "see download stats")
+            else fetch("/api/v1/applicationanalytics?skip=" + skip).then(res => res.json().then(res => {
                 activity = res
                 var html = ""
                 activity.forEach(a => {

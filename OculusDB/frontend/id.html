@@ -80,6 +80,13 @@
             }
 
             GetObjectById(id).then(res => {
+                if(isAprilFools() && !hasDeal("details")) {
+                    stopLoading("You haven't bought the details deal. Please <a href='/deal'>buy it</a> to proceed")
+                    SearchResults.innerHTML = `
+                    <div class="application"><p>Oh no! You did not buy the search deal. Without this you cannot search for anything on OculusDB. Please <a href="/deal">buy it</a> to proceed</p></div>
+                    `
+                    return
+                }
                 object = res
                 document.getElementById("type").innerHTML = object.__OculusDBType
                 document.getElementById("lastUpdated").innerHTML = new Date(object.__lastUpdated).toLocaleString()
@@ -102,14 +109,14 @@
                 }
             })
             
-            function stopLoading() {
-                versions.innerHTML = "App not found"
-                applications.innerHTML = "App not found"
-                dlcs.innerHTML = "App not found"
-                dlcpacks.innerHTML = "App not found"
-                document.getElementById("history").innerHTML = "Can't load history. App not found"
-                document.getElementById("specific").innerHTML = "App not found"
-                document.getElementById("this").innerHTML = "App not found"
+            function stopLoading(reason = "App not found") {
+                versions.innerHTML = reason
+                applications.innerHTML = reason
+                dlcs.innerHTML = reason
+                dlcpacks.innerHTML = reason
+                document.getElementById("history").innerHTML = `Can't load history. ${reason}`
+                document.getElementById("specific").innerHTML = reason
+                document.getElementById("this").innerHTML = reason
             }
 
             function AddDownloadStats(id) {
