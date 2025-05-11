@@ -446,17 +446,17 @@ namespace OculusDB
             return webhookCollection.Find(new BsonDocument()).ToList();
         }
 
-        public static BsonDocument GetLastPriceChangeOfApp(string appId, string currency)
+        public static List<BsonDocument> GetLastPriceChangesOfApp(string appId, string currency, int count)
         {
-            BsonDocument fromQueue = ScrapingNodeMongoDBManager.queuedActivity.Where(x =>
+            List<BsonDocument> allActivity = ScrapingNodeMongoDBManager.queuedActivity.Where(x =>
                 x.Contains("parentApplication") &&
                 x["parentApplication"]["id"] == appId &&
                 x["__OculusDBType"] == DBDataTypes.ActivityPriceChanged &&
-                x["currency"] == currency).OrderByDescending(x => x["__lastUpdated"]).FirstOrDefault();
-            if (fromQueue != null) return MongoDBFilterMiddleware(fromQueue);
-            return MongoDBFilterMiddleware(activityCollection.Find(x => x["parentApplication"]["id"] == appId && 
+                x["currency"] == currency).OrderByDescending(x => x["__lastUpdated"]).Take(count).ToList();
+            allActivity.AddRange(MongoDBFilterMiddleware(activityCollection.Find(x => x["parentApplication"]["id"] == appId && 
                                                                         x["__OculusDBType"] == DBDataTypes.ActivityPriceChanged && 
-                                                                        x["currency"] == currency).SortByDescending(x => x["__lastUpdated"]).FirstOrDefault());
+                                                                        x["currency"] == currency).SortByDescending(x => x["__lastUpdated"]).Limit(count).ToList()));
+            return allActivity;
         }
 
         public static List<BsonDocument> GetPriceChanges(string id, string currency)

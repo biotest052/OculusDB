@@ -423,7 +423,36 @@ public class ScrapingManaging
             
             
             // Price Change activity
-            DBActivityPriceChanged lastPriceChange = ObjectConverter.ConvertToDBType(MongoDBInteractor.GetLastPriceChangeOfApp(a.id, a.currency));
+            // Detect Price limbo
+            // Price limbo occurs when multiple nodes keep getting different prices for the same app (in same currency). In this case the app will be marked as price limbo and the highest price will be chosen.
+            List<DBActivityPriceChanged> priceChanges = MongoDBInteractor.GetLastPriceChangesOfApp(a.id, a.currency, 8).ConvertAll(x => (DBActivityPriceChanged)ObjectConverter.ConvertToDBType(x));
+            Dictionary<long, long> nodesPrice = new();
+            long highestPrice = 0;
+            foreach (DBActivityPriceChanged p in priceChanges)
+            {
+                if(!nodesPrice.ContainsKey(p.newPriceOffsetNumerical)) 
+                {
+                    nodesPrice.Add(p.newPriceOffsetNumerical, 0);
+                }
+                if (p.newPriceOffsetNumerical > highestPrice)
+                {
+                    highestPrice = p.newPriceOffsetNumerical;
+                }
+                nodesPrice[p.newPriceOffsetNumerical]++;
+            }
+            // now check if one node does a limbo
+            a.priceLimboDetected = false;
+            foreach (var prices in nodesPrice)
+            {
+                if (prices.Value > 2) // price limbo if the same price occurrs more than twice
+                {
+                    a.priceLimboDetected = true;
+                    break;
+                }
+            }
+            
+            
+            DBActivityPriceChanged? lastPriceChange = priceChanges.Count > 0 ? priceChanges[0] : null;
             DBActivityPriceChanged priceChange = new DBActivityPriceChanged();
             priceChange.parentApplication.id = a.id;
             priceChange.parentApplication.hmd = a.hmd;
@@ -431,6 +460,7 @@ public class ScrapingManaging
             priceChange.parentApplication.displayName = a.displayName;
             priceChange.newPriceOffsetNumerical = a.priceOffsetNumerical;
             priceChange.currency = a.currency;
+            if(a.priceLimboDetected) priceChange.newPriceOffsetNumerical = highestPrice; // Set the price to the highest price in case of price limbo
             if (lastPriceChange != null)
             {
                 if (lastPriceChange.newPriceOffset != priceChange.newPriceOffset)

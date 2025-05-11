@@ -912,6 +912,7 @@ function FormatApplication(application, htmlId = "", expanded = false) {
                 <tr><td class="label">Release time</td><td class="value">${new Date(application.releaseDate).toLocaleString()}</td></tr>
                 <tr><td class="label">Package name</td><td class="value">${application.packageName ? application.packageName : "Not available"}</td></tr>
                 <tr><td class="label">Canonical name</td><td class="value">${application.canonicalName}</td></tr>
+                <tr><td class="label">Price limbo detected</td><td class="value">${application.priceLimboDetected ?? false}</td></tr>
                 <tr><td class="label">Link to Oculus</td><td class="value"><a href="${GetOculusLink(application.id)}">${GetOculusLink(application.id)}</a></td></tr>
                 <tr><td class="label">Id</td><td class="value">${application.id}</td></tr>
                 <tr><td class="label">Scraped by</td><td class="value">${application.__sn}</td></tr>

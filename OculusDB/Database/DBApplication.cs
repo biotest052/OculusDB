@@ -46,6 +46,7 @@ namespace OculusDB.Database
             }
         }
         public long priceOffsetNumerical { get; set; } = 0;
+        public bool priceLimboDetected { get; set; } = false;
 
         public bool appHasDiscount
         {
