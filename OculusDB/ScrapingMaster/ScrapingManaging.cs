@@ -493,6 +493,7 @@ public class ScrapingManaging
                 updated.oldApplication = old;
                 updated.newApplication = a;
                 updated.id = a.id;
+                if (a.packageName == "" && old.packageName != "") a.packageName = old.packageName; // make sure package name gets preserved
                 if (old.canonicalName != a.canonicalName
                     || old.has_in_app_ads != a.has_in_app_ads
                     || old.is_approved != a.is_approved
