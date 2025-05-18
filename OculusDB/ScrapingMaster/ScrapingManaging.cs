@@ -424,33 +424,35 @@ public class ScrapingManaging
             
             // Price Change activity
             // Detect Price limbo
-            // Price limbo occurs when multiple nodes keep getting different prices for the same app (in same currency). In this case the app will be marked as price limbo and the highest price will be chosen.
+            // Price limbo occurs when multiple nodes keep getting different prices for the same app (in same currency). This means if an app switches between 0 and something else the most recent price gets chosen. In this case the app will be marked as price limbo and the most recent price (that's not 0) will be chosen.
             List<DBActivityPriceChanged> priceChanges = MongoDBInteractor.GetLastPriceChangesOfApp(a.id, a.currency, 8).ConvertAll(x => (DBActivityPriceChanged)ObjectConverter.ConvertToDBType(x));
+            priceChanges.Reverse();
             Dictionary<long, long> nodesPrice = new();
-            long highestPrice = 0;
+            long newestNonZeroPrice = 0;
             foreach (DBActivityPriceChanged p in priceChanges)
             {
                 if(!nodesPrice.ContainsKey(p.newPriceOffsetNumerical)) 
                 {
                     nodesPrice.Add(p.newPriceOffsetNumerical, 0);
                 }
-                if (p.newPriceOffsetNumerical > highestPrice)
+                if (p.newPriceOffsetNumerical != 0)
                 {
-                    highestPrice = p.newPriceOffsetNumerical;
+                    newestNonZeroPrice = p.newPriceOffsetNumerical;
                 }
                 nodesPrice[p.newPriceOffsetNumerical]++;
             }
             // now check if one node does a limbo
+            long suggestedPrice = a.priceOffsetNumerical;
             a.priceLimboDetected = false;
             foreach (var prices in nodesPrice)
             {
-                if (prices.Value > 2) // price limbo if the same price occurrs more than twice
+                if (prices.Value > 2 && prices.Key == 0) // price limbo if the same price occurrs more than twice
                 {
                     a.priceLimboDetected = true;
+                    suggestedPrice = newestNonZeroPrice;
                     break;
                 }
             }
-            
             
             DBActivityPriceChanged? lastPriceChange = priceChanges.Count > 0 ? priceChanges[0] : null;
             DBActivityPriceChanged priceChange = new DBActivityPriceChanged();
@@ -460,7 +462,7 @@ public class ScrapingManaging
             priceChange.parentApplication.displayName = a.displayName;
             priceChange.newPriceOffsetNumerical = a.priceOffsetNumerical;
             priceChange.currency = a.currency;
-            if(a.priceLimboDetected) priceChange.newPriceOffsetNumerical = highestPrice; // Set the price to the highest price in case of price limbo
+            if(a.priceLimboDetected) priceChange.newPriceOffsetNumerical = suggestedPrice; // Set the price to the highest price in case of price limbo
             if (lastPriceChange != null)
             {
                 if (lastPriceChange.newPriceOffset != priceChange.newPriceOffset)
