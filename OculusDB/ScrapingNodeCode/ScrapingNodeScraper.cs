@@ -241,7 +241,7 @@ public class ScrapingNodeScraper
         if (versions.data != null && versions.data.node != null && versions.data.node.primary_binaries != null &&
             versions.data.node.primary_binaries.nodes != null)
         {
-            foreach (OculusBinary b in versions.data.node.primary_binaries.nodes)
+            foreach (OculusBinary? b in versions.data.node.primary_binaries.nodes)
             {
                 bool doPriorityForThisVersion = app.priority;
                 DBVersion? oldEntry = connected.FirstOrDefault(x => x.id == b.id);
@@ -286,7 +286,7 @@ public class ScrapingNodeScraper
                 if (packageName == "")
                 {
                     Data<OculusBinary> info = GraphQLClient.GetMoreBinaryDetails(b.id);
-                    if (info.data != null) packageName = info.data.node.package_name;
+                    if (info.data != null && info.data.node != null) packageName = info.data.node.package_name;
                 }
 
                 if (!addedApplication)
