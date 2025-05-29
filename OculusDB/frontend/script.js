@@ -1311,7 +1311,7 @@ function RealDownload(id, openObb) {
     if(openObb) ObbDownloadPopUp();
 }
 
-function AndroidDownload(id, parentApplicationId,parentApplicationName, version, isObb = false, obbIds = "", obbNames = "") {
+function AndroidDownload(id, parentApplicationId,parentApplicationName, version, isObb = false, obbIds = "", obbNames = "", hmd = "EUREKA") {
 
     if(!DownloadCheck()) return
     
@@ -1356,11 +1356,18 @@ function AndroidDownload(id, parentApplicationId,parentApplicationName, version,
             <div>
                 <div style="font-size: 1.2em; font-weight: bold; margin-bottom: 10px;">Why is my download not starting?</div>
                 <p>
-                    <span style="font-weight: bold">You cannot download quest games atm. You may be able to use <span style="font-weight: bolder;">QuestAppVersionSwitcher</span> to downgrade/download Quest games like Beat Saber.</span>
+                    <span style="font-weight: bold">You cannot download quest games directly via your browser atm. You may be able to use <a style="font-weight: bolder;" href="https://oculusdb.rui2015.me/guide/quest/qavs">QuestAppVersionSwitcher</a> to downgrade/download Quest games like Beat Saber.</span>
                     It's an app you install on your Quest and then use to downgrade. You can find a guide on how to set it up <a href="https://oculusdb.rui2015.me/guide/quest/qavs">here</a>.
+                    <br/>
+                    <br/>
+                    If you want to download directly on your pc, you can use Oculus Downgrader. In that case press the Oculus Downgrader button below.
                     For more info check <a href="https://computerelite.github.io/blog/2024/01/05/downgrading">here</a>.
                     <br/>
-                    <input type="button" onclick="GetHelp()" value="Receive Help">
+                    <br/>
+                    If you need further help you can join the <a href="{OculusDBDC}">OculusDB Discord server</a> and ask for help in the #support channel.
+                    <br/>
+                    <input type="button" onclick="AndroidDownloadPopUp('${parentApplicationId}','${id}', '${hmd}')" value="Oculus Downgrader">
+                    <input type="button" onclick="GetHelp()" value="Poem for help">
                 </p>
             </div>
         `);
@@ -1464,8 +1471,7 @@ function GetDownloadButtonVersion(downloadable, id, hmd, binaryType, parentAppli
         if(localStorage.isOculusDowngrader) {
             return `<input type="button" value="Download${downloadable ? '"' : ' (Developer only)" class="red"'} onmousedown="MouseDown(event)" onmouseup="if(MouseUp(event)) AndroidDownloadPopUp('${parentApplication.id}','${id}', '${hmd}')" oncontextmenu="ContextMenuEnabled(event, this)">`
         }
-        return `<input type="button" value="Download${downloadable ? '"' : ' (Developer only)" class="red"'} onmousedown="MouseDown(event)" onmouseup="if(MouseUp(event)) AndroidDownload('${id}', '${parentApplication.id}', '${parentApplication.displayName.replace("'", "\\'")}', '${version}', ${isObb}, ${obbIds == null ? "null" : `'${obbIds}'`}, ${obbNames == null ? "null" : `'${obbNames}'`})" oncontextmenu="ContextMenuEnabled(event, this)" cmon-0="Copy download url" cmov-0="Copy(GetDownloadLink('${id}'))" cmon-1="Show Oculus Downgrader code" cmov-1="AndroidDownloadPopUp('${parentApplication.id}','${id}', '${hmd}')">
-        ${localStorage.isQAVS ? `` : `<input type="button" value="Download via Proxy (will probably work${downloadable ? ')"' : '; Developer only)" class="red"'} onmousedown="MouseDown(event)" onmouseup="if(MouseUp(event)) ProxyDownload('${id}')">`}`
+        return `<input type="button" value="Download${downloadable ? '"' : ' (Developer only)" class="red"'} onmousedown="MouseDown(event)" onmouseup="if(MouseUp(event)) AndroidDownload('${id}', '${parentApplication.id}', '${parentApplication.displayName.replace("'", "\\'")}', '${version}', ${isObb}, ${obbIds == null ? "null" : `'${obbIds}'`}, ${obbNames == null ? "null" : `'${obbNames}'`}, '${hmd}')" oncontextmenu="ContextMenuEnabled(event, this)" cmon-0="Copy download url" cmov-0="Copy(GetDownloadLink('${id}'))" cmon-1="Show Oculus Downgrader code" cmov-1="AndroidDownloadPopUp('${parentApplication.id}','${id}', '${hmd}')">`
     }
     return `<input type="button" value="Download${downloadable ? '"' : ' (Developer only)" class="red"'} onmousedown="MouseDown(event)" onmouseup="if(MouseUp(event)) RiftDownloadPopUp('${parentApplication.id}','${id}')" oncontextmenu="ContextMenuEnabled(event, this)" cmon-0="Show Oculus Downgrader code" cmov-0="RiftDownloadPopUp('${parentApplication.id}','${id}')">`
 }

@@ -192,7 +192,7 @@ public class ScrapingManaging
         ulong taskId = processTaskId;
         processTaskId++;
         Logger.Log("# " + taskId + "  Processing " + taskResult.scraped.applications.Count + " applications, " + taskResult.scraped.dlcs.Count + " dlcs, " + taskResult.scraped.dlcPacks.Count + " dlc packs, " + taskResult.scraped.versions.Count + " version and " + taskResult.scraped.imgs.Count + " images from scraping node " + scrapingNodeAuthenticationResult.scrapingNode);
-        ScrapingContribution scrapingContribution = new ScrapingContribution();
+        ScrapingContribution? scrapingContribution = new ScrapingContribution();
         scrapingContribution.scrapingNode = scrapingNodeAuthenticationResult.scrapingNode;
         // Process Versions
         Dictionary<string, List<DBVersion>> versionLookup = new Dictionary<string, List<DBVersion>>();
@@ -431,10 +431,7 @@ public class ScrapingManaging
             long newestNonZeroPrice = 0;
             foreach (DBActivityPriceChanged p in priceChanges)
             {
-                if(!nodesPrice.ContainsKey(p.newPriceOffsetNumerical)) 
-                {
-                    nodesPrice.Add(p.newPriceOffsetNumerical, 0);
-                }
+                nodesPrice.TryAdd(p.newPriceOffsetNumerical, 0);
                 if (p.newPriceOffsetNumerical != 0)
                 {
                     newestNonZeroPrice = p.newPriceOffsetNumerical;
@@ -442,14 +439,13 @@ public class ScrapingManaging
                 nodesPrice[p.newPriceOffsetNumerical]++;
             }
             // now check if one node does a limbo
-            long suggestedPrice = a.priceOffsetNumerical;
             a.priceLimboDetected = false;
             foreach (var prices in nodesPrice)
             {
                 if (prices.Value > 2 && prices.Key == 0) // price limbo if the same price occurrs more than twice
                 {
                     a.priceLimboDetected = true;
-                    suggestedPrice = newestNonZeroPrice;
+                    a.priceOffsetNumerical = newestNonZeroPrice;
                     break;
                 }
             }
@@ -462,7 +458,6 @@ public class ScrapingManaging
             priceChange.parentApplication.displayName = a.displayName;
             priceChange.newPriceOffsetNumerical = a.priceOffsetNumerical;
             priceChange.currency = a.currency;
-            if(a.priceLimboDetected) priceChange.newPriceOffsetNumerical = suggestedPrice; // Set the price to the highest price in case of price limbo
             if (lastPriceChange != null)
             {
                 if (lastPriceChange.newPriceOffset != priceChange.newPriceOffset)
@@ -474,18 +469,14 @@ public class ScrapingManaging
             }
             else
             {
-                if (priceChange == null)
-                {
-                    ReportErrorWithDiscordMessage("Price change is null. Responsible node is " + scrapingNodeAuthenticationResult.scrapingNode.scrapingNodeId, "nullError");
-                }
-                else if (scrapingContribution == null)
+                if (scrapingContribution == null)
                 {
                     ReportErrorWithDiscordMessage("Scraping Contribution is null. Responsible node is " + scrapingNodeAuthenticationResult.scrapingNode.scrapingNodeId, "nullError");
                 }
                 else ScrapingNodeMongoDBManager.AddBsonDocumentToActivityCollection(priceChange.ToBsonDocument(), ref scrapingContribution);
             }
 
-            DBApplication old = ObjectConverter.ConvertToDBType(MongoDBInteractor.GetByID(a.id, 1, a.currency).FirstOrDefault());
+            DBApplication? old = ObjectConverter.ConvertToDBType(MongoDBInteractor.GetByID(a.id, 1, a.currency).FirstOrDefault());
             ScrapingNodeMongoDBManager.AddApplication(a, ref scrapingContribution);
             if (old != null)
             {

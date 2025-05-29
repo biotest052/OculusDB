@@ -69,7 +69,7 @@ namespace OculusDB
             return converted;
         }
 
-        public static dynamic ConvertToDBType(BsonDocument d)
+        public static dynamic? ConvertToDBType(BsonDocument? d)
         {
             if (d == null) return null;
             string type = d.GetValue("__OculusDBType").ToString();
