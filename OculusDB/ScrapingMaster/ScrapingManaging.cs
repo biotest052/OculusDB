@@ -432,7 +432,7 @@ public class ScrapingManaging
             foreach (DBActivityPriceChanged p in priceChanges)
             {
                 nodesPrice.TryAdd(p.newPriceOffsetNumerical, 0);
-                if (p.newPriceOffsetNumerical != 0)
+                if (p.newPriceOffsetNumerical > 0)
                 {
                     newestNonZeroPrice = p.newPriceOffsetNumerical;
                 }
