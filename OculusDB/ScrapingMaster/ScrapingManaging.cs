@@ -142,12 +142,12 @@ public class ScrapingManaging
                 if (taskResult.appsToScrape.Count > 0)
                 {
                     Logger.Log("Found apps to scrape. Adding them to the DB.");
-                    ScrapingNodeMongoDBManager.AddAppsToScrape(taskResult.appsToScrape, scrapingNodeAuthenticationResult.scrapingNode);
                 }
                 else
                 {
-                    Logger.Log("No new apps present in task result. Ignoring");
+                    Logger.Log("No new apps present in task result. Adding existing");
                 }
+                ScrapingNodeMongoDBManager.AddAppsToScrape(taskResult.appsToScrape, scrapingNodeAuthenticationResult.scrapingNode);
 
                 isAppAddingRunning[currency].Unlock(scrapingNodeAuthenticationResult.scrapingNode);
                 r.processed = true;
