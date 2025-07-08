@@ -222,9 +222,26 @@ public class ScrapingNodeMongoDBManager
         // Add apps to be scraped
         // Only insert appsToScrape which ain't in appsToScrape already
         List<AppToScrape> appsToScrapeFiltered = new List<AppToScrape>();
+        // add scrape for all apps on OculusDB
+        MongoDBInteractor.applicationCollection.FindSync(x => true).ForEachAsync(x =>
+        {
+            AppToScrape a = new AppToScrape
+            {
+                appId = x.id,
+                currency = scrapingNode.currency,
+                headset = x.hmd,
+                scrapePriority = AppScrapePriority.Low,
+                addedTime = DateTime.UtcNow,
+            };
+            if (MongoDBInteractor.appsToScrape.Find(y => y.appId == x.id).FirstOrDefault() == null)
+            {
+                appsToScrapeFiltered.Add(a);
+            }
+        });
+        // Add scrape for all found apps
         appsToScrape.ForEach(x =>
         {
-            if (MongoDBInteractor.appsToScrape.Find(y => y.appId == x.appId).FirstOrDefault() == null)
+            if (MongoDBInteractor.appsToScrape.Find(y => y.appId == x.appId).FirstOrDefault() == null && appsToScrapeFiltered.All(y => y.appId != x.appId))
             {
                 x.currency = scrapingNode.currency;
                 appsToScrapeFiltered.Add(x);
