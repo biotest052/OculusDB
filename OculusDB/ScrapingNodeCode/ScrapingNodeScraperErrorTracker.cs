@@ -14,8 +14,8 @@ public class ScrapingNodeScraperErrorTracker
     public void AddError()
     {
         errorTimes.Add(DateTime.UtcNow);
-        errorTimes.RemoveAll(x => x < DateTime.UtcNow.AddMinutes(-5));
+        errorTimes.RemoveAll(x => x < DateTime.UtcNow.AddMinutes(-2));
         // If more than 10 errors occur in 5 minutes, the node will stop scraping for 5 hours
-        if(errorTimes.Count > 10) continueTime = DateTime.UtcNow.AddHours(5);
+        if(errorTimes.Count > 20) continueTime = DateTime.UtcNow.AddHours(5);
     }
 }
