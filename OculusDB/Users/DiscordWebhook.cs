@@ -11,6 +11,7 @@ using OculusGraphQLApiLib;
 using System.Net;
 using ComputerUtils.Logging;
 using System.Text.Json;
+using OculusGraphQLApiLib.Results;
 
 namespace OculusDB.Users
 {
@@ -95,7 +96,7 @@ namespace OculusDB.Users
                 meta.Add("Version code", v.versionCode.ToString());
                 meta.Add("Downloadable", (v.releaseChannels.Count != 0).ToString());
                 List<string> releaseChannels = new List<string>();
-                foreach (DBReleaseChannel channel in v.releaseChannels) releaseChannels.Add(channel.channel_name);
+                foreach (ReleaseChannelWithoutLatestSupportedBinary channel in v.releaseChannels) releaseChannels.Add(channel.channel_name);
                 meta.Add("Release channels", String.Join(", ", releaseChannels));
                 meta.Add("Id", v.id);
                 meta.Add("Headset", HeadsetTools.GetHeadsetDisplayName(v.parentApplication.hmd));
