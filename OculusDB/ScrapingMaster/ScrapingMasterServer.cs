@@ -110,7 +110,7 @@ public class ScrapingMasterServer
             {
                 request.SendString("Couldn't find scraping node '" + nodeId + "'", "text/plain", 404);
             }
-            request.SendString(JsonSerializer.Serialize(s), "application/json", s!.status == ScrapingNodeStatus.WaitingForMasterServer ? 200 : 418);
+            request.SendString(JsonSerializer.Serialize(s), "application/json", s!.status != ScrapingNodeStatus.WaitingForMasterServer ? 200 : 418);
             return true;
         }, true);
         server.AddRoute("POST", "/api/v1/reportscrapingerror/", request =>
