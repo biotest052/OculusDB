@@ -97,7 +97,7 @@ public class ScrapingMasterServer
             ScrapingNodeStats? s = ScrapingNodeMongoDBManager.GetScrapingNode(nodeId);
             if (s == null)
             {
-                request.Send404();
+                request.SendString("Couldn't find scraping node '" + nodeId + "'", "text/plain", 404);
             }
             request.SendString(JsonSerializer.Serialize(s), "application/json", s!.online ? 200 : 418);
             return true;
@@ -108,7 +108,7 @@ public class ScrapingMasterServer
             ScrapingNodeStats? s = ScrapingNodeMongoDBManager.GetScrapingNode(nodeId);
             if (s == null)
             {
-                request.Send404();
+                request.SendString("Couldn't find scraping node '" + nodeId + "'", "text/plain", 404);
             }
             request.SendString(JsonSerializer.Serialize(s), "application/json", s!.status == ScrapingNodeStatus.WaitingForMasterServer ? 200 : 418);
             return true;
