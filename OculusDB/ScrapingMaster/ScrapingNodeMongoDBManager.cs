@@ -384,6 +384,23 @@ public class ScrapingNodeMongoDBManager
             return x;
         });
     }
+    public static ScrapingNodeStats? GetScrapingNode(string id)
+    {
+        ScrapingNodeStats? x = scrapingNodeStats.Find(x => x.scrapingNode.scrapingNodeId == id).FirstOrDefault();
+        if (x != null)
+        {
+            x.SetOnline();
+            // Find contribution in DB
+            x.contribution = scrapingNodeContributions.Find(y => y.scrapingNode.scrapingNodeId == x.scrapingNode.scrapingNodeId)
+                .FirstOrDefault();
+            if (x.contribution == null) x.contribution = new ScrapingContribution();
+            if (ScrapingManaging.processingRn.TryGetValue(x.scrapingNode.scrapingNodeId, out ScrapingNodeTaskResultProcessing? processing))
+            {
+                x.tasksProcessing = processing.processingCount;
+            }
+        }
+        return x;
+    }
 
     public static void CleanAppsScraping()
     {
