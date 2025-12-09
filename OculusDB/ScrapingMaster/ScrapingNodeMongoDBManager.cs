@@ -259,7 +259,7 @@ public class ScrapingNodeMongoDBManager
 
     public static void IncScrapingNodeContribution(ScrapingContribution scrapingContribution)
     {
-        ScrapingContribution s = scrapingNodeContributions.Find(x => x.scrapingNode.scrapingNodeId == scrapingContribution.scrapingNode.scrapingNodeId).FirstOrDefault();
+        ScrapingContribution? s = scrapingNodeContributions.Find(x => x.scrapingNode.scrapingNodeId == scrapingContribution.scrapingNode.scrapingNodeId).FirstOrDefault();
         if (s == null)
         {
             // Create contribution if it doesn't exist
