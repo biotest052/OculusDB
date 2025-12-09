@@ -101,7 +101,7 @@ public class ScrapingMasterServer
             }
             request.SendString(JsonSerializer.Serialize(s), "application/json", s!.online ? 200 : 418);
             return true;
-        });
+        }, true);
         server.AddRoute("GET","/api/v1/isstuck/", request =>
         {
             string nodeId = request.pathDiff;
@@ -112,7 +112,7 @@ public class ScrapingMasterServer
             }
             request.SendString(JsonSerializer.Serialize(s), "application/json", s!.status == ScrapingNodeStatus.WaitingForMasterServer ? 200 : 418);
             return true;
-        });
+        }, true);
         server.AddRoute("POST", "/api/v1/reportscrapingerror/", request =>
         {
             ScrapingErrorContainer errorContainer = JsonSerializer.Deserialize<ScrapingErrorContainer>(request.bodyString);
