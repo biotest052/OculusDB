@@ -90,84 +90,101 @@ public class ScrapingManaging
 
     public static ScrapingProcessedResult ProcessTaskResult(ScrapingNodeTaskResult taskResult, ScrapingNodeAuthenticationResult scrapingNodeAuthenticationResult)
     {
-        if (!processingRn.ContainsKey(scrapingNodeAuthenticationResult.scrapingNode.scrapingNodeId))
-            processingRn.Add(scrapingNodeAuthenticationResult.scrapingNode.scrapingNodeId,
+        string scrapingNodeId = scrapingNodeAuthenticationResult.scrapingNode.scrapingNodeId;
+        if (!processingRn.ContainsKey(scrapingNodeId))
+            processingRn.Add(scrapingNodeId,
                 new ScrapingNodeTaskResultProcessing());
-        processingRn[scrapingNodeAuthenticationResult.scrapingNode.scrapingNodeId].Start();
-
-        string currency = scrapingNodeAuthenticationResult.scrapingNode.currency;
-        if (!isAppAddingRunning.ContainsKey(currency))
-        {
-            isAppAddingRunning.Add(scrapingNodeAuthenticationResult.scrapingNode.currency, new());
-        }
+        processingRn[scrapingNodeId].Start();
         ScrapingProcessedResult r = new ScrapingProcessedResult();
-        Logger.Log("Results of Scraping node " + scrapingNodeAuthenticationResult.scrapingNode + " received. Processing now...");
-        Logger.Log("Result type: " +
-                   Enum.GetName(typeof(ScrapingNodeTaskResultType), taskResult.scrapingNodeTaskResultType));
-        // Process results of scraping:
-        //   - When apps for scraping have been sent, add them to the DB for scraping
-        //   - On error while requesting apps to scrape, make other scraping nodes able to request apps to scrape
-        //   - When scraping is done, compute the activity entries and write both to the DB (Each scraped app should)
-        switch (taskResult.scrapingNodeTaskResultType)
+        try
         {
-            case ScrapingNodeTaskResultType.Unknown:
-                r.processed = false;
-                r.msg = "Cannot process unknown task result type.";
-                processingRn[scrapingNodeAuthenticationResult.scrapingNode.scrapingNodeId].Done();
-                return r;
-            case ScrapingNodeTaskResultType.ErrorWhileRequestingAppsToScrape:
-                if (!isAppAddingRunning[currency].IsThisResponsible(scrapingNodeAuthenticationResult.scrapingNode))
-                {
-                    Logger.Log("Node is not responsible for adding apps to scrape. Ignoring error.");
-                    r.processed = false;
-                    r.msg = "You are not responsible for adding apps to scrape. Your submission has been ignored.";
-                    r.failedCount = 1;
-                    processingRn[scrapingNodeAuthenticationResult.scrapingNode.scrapingNodeId].Done();
-                    return r;
-                }
-                Logger.Log("Error while requesting apps to scrape. Making other scraping nodes able to request apps to scrape.");
-                isAppAddingRunning[currency].Set(false, TimeSpan.FromMinutes(10), "");
-                break;
-            case ScrapingNodeTaskResultType.FoundAppsToScrape:
-                if (!isAppAddingRunning[currency].IsThisResponsible(scrapingNodeAuthenticationResult.scrapingNode))
-                {
-                    Logger.Log("Node is not responsible for adding apps to scrape. Ignoring.");
-                    r.processed = false;
-                    r.msg = "You are not responsible for adding apps to scrape. Your submission has been ignored.";
-                    r.failedCount = 1;
-                    processingRn[scrapingNodeAuthenticationResult.scrapingNode.scrapingNodeId].Done();
-                    return r;
-                }
+            string currency = scrapingNodeAuthenticationResult.scrapingNode.currency;
+            if (!isAppAddingRunning.ContainsKey(currency))
+            {
+                isAppAddingRunning.Add(scrapingNodeAuthenticationResult.scrapingNode.currency, new());
+            }
 
-                if (taskResult.appsToScrape.Count > 0)
-                {
-                    Logger.Log("Found apps to scrape. Adding them to the DB.");
-                }
-                else
-                {
-                    Logger.Log("No new apps present in task result. Adding existing");
-                }
-                ScrapingNodeMongoDBManager.AddAppsToScrape(taskResult.appsToScrape, scrapingNodeAuthenticationResult.scrapingNode);
+            Logger.Log("Results of Scraping node " + scrapingNodeAuthenticationResult.scrapingNode +
+                       " received. Processing now...");
+            Logger.Log("Result type: " +
+                       Enum.GetName(typeof(ScrapingNodeTaskResultType), taskResult.scrapingNodeTaskResultType));
+            // Process results of scraping:
+            //   - When apps for scraping have been sent, add them to the DB for scraping
+            //   - On error while requesting apps to scrape, make other scraping nodes able to request apps to scrape
+            //   - When scraping is done, compute the activity entries and write both to the DB (Each scraped app should)
+            switch (taskResult.scrapingNodeTaskResultType)
+            {
+                case ScrapingNodeTaskResultType.Unknown:
+                    r.processed = false;
+                    r.msg = "Cannot process unknown task result type.";
+                    break;
+                case ScrapingNodeTaskResultType.ErrorWhileRequestingAppsToScrape:
+                    if (!isAppAddingRunning[currency].IsThisResponsible(scrapingNodeAuthenticationResult.scrapingNode))
+                    {
+                        Logger.Log("Node is not responsible for adding apps to scrape. Ignoring error.");
+                        r.processed = false;
+                        r.msg = "You are not responsible for adding apps to scrape. Your submission has been ignored.";
+                        r.failedCount = 1;
+                        break;
+                    }
 
-                isAppAddingRunning[currency].Unlock(scrapingNodeAuthenticationResult.scrapingNode);
-                r.processed = true;
-                r.processedCount = taskResult.appsToScrape.Count;
-                r.msg = "Added " + taskResult.appsToScrape.Count + " apps to scrape. Thanks for the cooperation.";
-                break;
-            case ScrapingNodeTaskResultType.AppsScraped:
-                try
-                {
-                    ProcessScrapedResults(taskResult, scrapingNodeAuthenticationResult, ref r);
-                    r.msg = "Processed " + taskResult.scraped.applications.Count + " applications, " + taskResult.scraped.dlcs.Count + " dlcs, " + taskResult.scraped.dlcPacks.Count + " dlc packs, " + taskResult.scraped.versions.Count + " version and " + taskResult.scraped.imgs.Count + " images from scraping node " + scrapingNodeAuthenticationResult.scrapingNode + ". Thanks for your contribution.";
-                }
-                catch (Exception e)
-                {
-                    Logger.Log("Error while processing scraped results of node " + scrapingNodeAuthenticationResult.scrapingNode + ": " + e, LoggingType.Warning);
-                    ReportErrorWithDiscordMessage(e.ToString());
-                }
-                break;
+                    Logger.Log(
+                        "Error while requesting apps to scrape. Making other scraping nodes able to request apps to scrape.");
+                    isAppAddingRunning[currency].Set(false, TimeSpan.FromMinutes(10), "");
+                    break;
+                case ScrapingNodeTaskResultType.FoundAppsToScrape:
+                    if (!isAppAddingRunning[currency].IsThisResponsible(scrapingNodeAuthenticationResult.scrapingNode))
+                    {
+                        Logger.Log("Node is not responsible for adding apps to scrape. Ignoring.");
+                        r.processed = false;
+                        r.msg = "You are not responsible for adding apps to scrape. Your submission has been ignored.";
+                        r.failedCount = 1;
+                        break;
+                    }
+
+                    if (taskResult.appsToScrape.Count > 0)
+                    {
+                        Logger.Log("Found apps to scrape. Adding them to the DB.");
+                    }
+                    else
+                    {
+                        Logger.Log("No new apps present in task result. Adding existing");
+                    }
+
+                    ScrapingNodeMongoDBManager.AddAppsToScrape(taskResult.appsToScrape,
+                        scrapingNodeAuthenticationResult.scrapingNode);
+
+                    isAppAddingRunning[currency].Unlock(scrapingNodeAuthenticationResult.scrapingNode);
+                    r.processed = true;
+                    r.processedCount = taskResult.appsToScrape.Count;
+                    r.msg = "Added " + taskResult.appsToScrape.Count + " apps to scrape. Thanks for the cooperation.";
+                    break;
+                case ScrapingNodeTaskResultType.AppsScraped:
+                    try
+                    {
+                        ProcessScrapedResults(taskResult, scrapingNodeAuthenticationResult, ref r);
+                        r.msg = "Processed " + taskResult.scraped.applications.Count + " applications, " +
+                                taskResult.scraped.dlcs.Count + " dlcs, " + taskResult.scraped.dlcPacks.Count +
+                                " dlc packs, " + taskResult.scraped.versions.Count + " version and " +
+                                taskResult.scraped.imgs.Count + " images from scraping node " +
+                                scrapingNodeAuthenticationResult.scrapingNode + ". Thanks for your contribution.";
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Log(
+                            "Error while processing scraped results of node " +
+                            scrapingNodeAuthenticationResult.scrapingNode + ": " + e, LoggingType.Warning);
+                        ReportErrorWithDiscordMessage(e.ToString());
+                    }
+                    break;
+            }
         }
-        processingRn[scrapingNodeAuthenticationResult.scrapingNode.scrapingNodeId].Done();
+        catch (Exception e)
+        {
+            ReportErrorWithDiscordMessage("Error processing Task result", e.ToString());
+        }
+        
+        processingRn[scrapingNodeId].Done();
         return r;
     }
 
