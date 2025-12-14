@@ -42,12 +42,12 @@ jobs:
         echo cp -r OculusDB/frontend/dist/* OculusDB/bin/Debug/net6.0/frontend
         echo cp -r OculusDB/frontend/dist/* OculusDB/bin/Release/net6.0/frontend
     - name: Upload Debug net6.0.zip
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: net6.0-Debug
         path: OculusDB/bin/Debug/net6.0
     - name: Upload Release net6.0.zip
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: net6.0-Release
         path: OculusDB/bin/Release/net6.0
