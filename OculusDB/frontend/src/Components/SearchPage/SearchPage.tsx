@@ -252,8 +252,8 @@ let SearchPage = ( props: SearchPageProps ) => {
 
               if(selectedOffer.strikethroughPrice){
                 app.priceOffer = true;
-                app.offerPriceFormatted = selectedOffer.price.priceFormatted;
-                app.priceFormatted = selectedOffer.strikethroughPrice.priceFormatted;
+                app.offerPriceFormatted = selectedOffer.strikethroughPrice.priceFormatted;
+                app.priceFormatted = selectedOffer.price.priceFormatted;
                 app.rawPrice = selectedOffer.strikethroughPrice.price;
               }
             }
