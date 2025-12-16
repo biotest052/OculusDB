@@ -237,11 +237,12 @@ public class ScrapingNodeMongoDBManager
             {
                 appsToScrapeFiltered.Add(a);
             }
-        });
+        }).Wait();
         // Add scrape for all found apps
         appsToScrape.ForEach(x =>
         {
-            if (MongoDBInteractor.appsToScrape.Find(y => y.appId == x.appId).FirstOrDefault() == null && appsToScrapeFiltered.All(y => y.appId != x.appId))
+            if (MongoDBInteractor.appsToScrape.Find(y => y.appId == x.appId).FirstOrDefault() == null &&
+                appsToScrapeFiltered.All(y => y.appId != x.appId))
             {
                 x.currency = scrapingNode.currency;
                 appsToScrapeFiltered.Add(x);
