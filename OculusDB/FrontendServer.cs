@@ -772,7 +772,7 @@ public class FrontendServer
             if (!DoesUserHaveAccess(request)) return true;
             WebClient c = new WebClient();
             c.Headers.Add("User-Agent", "OculusDB/1.0");
-            List<GithubCommit> commits = JsonSerializer.Deserialize<List<GithubCommit>>(c.DownloadString("https://api.github.com/repos/ComputerElite/OculusDB/commits?per_page=100"));
+            List<GithubCommit> commits = JsonSerializer.Deserialize<List<GithubCommit>>(c.DownloadString("https://api.github.com/repos/ComputerElite/OculusDB/commits?per_page=100&sha=OculusDB-current"));
             List<Update> updates = new List<Update>();
             foreach(GithubCommit co in commits)
             {
