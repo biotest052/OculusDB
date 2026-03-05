@@ -80,7 +80,7 @@ public class DBApplication : DBBase, IDBObjectOperations<DBApplication>
     public List<string> genresFormatted {
         get
         {
-            return genres.ConvertAll(x => OculusConverter.FormatOculusEnumString(x.ToString()));
+            return genres != null ? genres.ConvertAll(x => OculusConverter.FormatOculusEnumString(x.ToString())) : "Unknown";
         }
     }
     
