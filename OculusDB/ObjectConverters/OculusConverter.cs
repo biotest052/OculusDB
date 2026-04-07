@@ -254,8 +254,8 @@ public class OculusConverter
     public static DBApplication Application(Application applicationFromDeveloper, Application applicationFromStore)
     {
         DBApplication db = FromOculusToDB<Application, DBApplication>(applicationFromDeveloper);
-        Application applicationCloudStorage = GraphQLClient.AppDetailsCloudStorageEnabled(applicationFromDeveloper.id).data.node;
-        db.cloudBackupEnabled = applicationCloudStorage.cloud_backup_enabled;
+        Application? applicationCloudStorage = GraphQLClient.AppDetailsCloudStorageEnabled(applicationFromDeveloper.id).data.node;
+        db.cloudBackupEnabled = applicationCloudStorage?.cloud_backup_enabled ?? false;
         
         // Get latest public metadata revision
         PDPMetadata metadataToUse = applicationFromDeveloper.firstRevision.nodes[0].pdp_metadata;
