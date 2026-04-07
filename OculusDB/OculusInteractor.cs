@@ -47,19 +47,28 @@ namespace OculusDB
         public static IEnumerable<IAPItem> EnumerateAllDLCs(string groupingId)
         {
             Data<ApplicationGrouping?> s = GraphQLClient.GetDLCsDeveloper(groupingId);
-            if(s.data.node == null)
+            var data = s.data;
+            if(data == null || data.node == null)
             {
-                throw new Exception("Could not get data to enumerate dlcs.");
+                yield break;
+            }
+            if(data.node.add_ons == null || data.node.add_ons.edges == null)
+            {
+                yield break;
             }
             while (true)
             {
                 foreach (Node<IAPItem> e in s.data.node.add_ons.edges)
                 {
-                    yield return e.node;
+                    if (e.node != null)
+                        yield return e.node;
                 }
 
-                if (!s.data.node.add_ons.page_info.has_next_page) break;
+                if (!data.node.add_ons.page_info.has_next_page) break;
+                if (data.node.add_ons.page_info.end_cursor == null) break;
                 s = GraphQLClient.GetDLCsDeveloper(groupingId, s.data.node.add_ons.page_info.end_cursor);
+                data = s.data;
+                if (data == null || data.node == null) break;
             }
         }
         
