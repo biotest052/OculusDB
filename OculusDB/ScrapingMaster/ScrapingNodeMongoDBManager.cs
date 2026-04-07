@@ -278,17 +278,6 @@ public class ScrapingNodeMongoDBManager
     {
         if(a == null) return;
         
-        string displayNameToCheck = a.displayName?.ToLower() ?? "";
-        if (!string.IsNullOrEmpty(displayNameToCheck))
-        {
-            var existingApp = OculusDBDatabase.applicationCollection.Find(x => x.searchDisplayName != null && x.searchDisplayName.ToLower() == displayNameToCheck).FirstOrDefault();
-            if (existingApp != null && existingApp.id != a.id)
-            {
-                Logger.Log("Skipping " + a.displayName + " - an app with this name already exists (ID: " + existingApp.id + ")", LoggingType.Warning);
-                return;
-            }
-        }
-        
         contribution.AddContribution(a.__OculusDBType, 1);
         try
         {
