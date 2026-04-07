@@ -5,9 +5,9 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OculusDB", "OculusDB.csproj", "{A5DA64EB-C6FE-4335-A2C7-2E4576C90E95}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComputerUtils", "..\..\ComputerUtils\ComputerUtils\ComputerUtils.csproj", "{9C6451BE-5FF3-42FC-A697-287070125E37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComputerUtils", "..\OculusGraphQLApiLib\ComputerUtils\ComputerUtils\ComputerUtils.csproj", "{9C6451BE-5FF3-42FC-A697-287070125E37}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OculusGraphQLApiLib", "..\..\OculusGraphQLApiLib\OculusGraphQLApiLib\OculusGraphQLApiLib.csproj", "{CCDB1CAE-8740-46BA-83B4-FBF1D77C0977}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OculusGraphQLApiLib", "..\OculusGraphQLApiLib\OculusGraphQLApiLib\OculusGraphQLApiLib.csproj", "{CCDB1CAE-8740-46BA-83B4-FBF1D77C0977}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

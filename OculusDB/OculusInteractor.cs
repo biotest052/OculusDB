@@ -25,7 +25,7 @@ namespace OculusDB
         public static IEnumerable<Application> EnumerateAllApplications(Headset headset)
         {
             Data<AppStoreAllAppsSection> s = GraphQLClient.AllApps(headset, null, 100);
-            if(s.data.node == null || s.data.node.primary_binaries.edges == null)
+            if(s.data.node == null || s.data.node.all_items.edges == null)
             {
                 throw new Exception("Could not get data to enumerate dlcs.");
             }
@@ -80,19 +80,22 @@ namespace OculusDB
         public static IEnumerable<OculusBinary> EnumerateAllVersions(string appId)
         {
             Data<EdgesPrimaryBinaryApplication> s = GraphQLClient.AllVersionOfAppCursor(appId);
-            if(s.data.node == null)
+            var data = s.data;
+            if(data == null || data.node == null || data.node.primary_binaries == null || data.node.primary_binaries.edges == null)
             {
-                throw new Exception("Could not get data to enumerate dlcs.");
+                throw new Exception($"Could not get data to enumerate versions. {data == null} {data?.node == null} {data?.node?.primary_binaries == null} {data?.node?.primary_binaries?.edges == null}");
             }
             while (true)
             {
-                foreach (Node<OculusBinary> e in s.data.node.primary_binaries.edges)
+                foreach (Node<OculusBinary>? e in data.node.primary_binaries.edges)
                 {
-                    yield return e.node;
+                    if (e.node != null)
+                        yield return e.node;
                 }
 
-                if (!s.data.node.primary_binaries.page_info.has_next_page) break;
-                s = GraphQLClient.AllVersionOfAppCursor(appId, s.data.node.primary_binaries.page_info.end_cursor);
+                if (!data.node.primary_binaries.page_info.has_next_page) break;
+                s = GraphQLClient.AllVersionOfAppCursor(appId, data.node.primary_binaries.page_info.end_cursor);
+                data = s.data;
             }
         }
     }
