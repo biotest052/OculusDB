@@ -81,9 +81,13 @@ namespace OculusDB
         {
             Data<EdgesPrimaryBinaryApplication> s = GraphQLClient.AllVersionOfAppCursor(appId);
             var data = s.data;
-            if(data == null || data.node == null || data.node.primary_binaries == null || data.node.primary_binaries.edges == null)
+            if(data == null || data.node == null)
             {
-                throw new Exception($"Could not get data to enumerate versions. {data == null} {data?.node == null} {data?.node?.primary_binaries == null} {data?.node?.primary_binaries?.edges == null}");
+                yield break;
+            }
+            if(data.node.primary_binaries == null || data.node.primary_binaries.edges == null)
+            {
+                yield break;
             }
             while (true)
             {
@@ -94,8 +98,10 @@ namespace OculusDB
                 }
 
                 if (!data.node.primary_binaries.page_info.has_next_page) break;
+                if (data.node.primary_binaries.page_info.end_cursor == null) break;
                 s = GraphQLClient.AllVersionOfAppCursor(appId, data.node.primary_binaries.page_info.end_cursor);
                 data = s.data;
+                if (data == null || data.node == null) break;
             }
         }
     }
