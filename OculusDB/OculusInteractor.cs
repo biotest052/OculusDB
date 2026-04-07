@@ -25,9 +25,9 @@ namespace OculusDB
         public static IEnumerable<Application> EnumerateAllApplications(Headset headset)
         {
             Data<AppStoreAllAppsSection> s = GraphQLClient.AllApps(headset, null, 100);
-            if(s.data.node == null)
+            if(s.data.node == null || s.data.node.primary_binaries.edges == null)
             {
-                throw new Exception("Could not get data to enumerate applications.");
+                throw new Exception("Could not get data to enumerate dlcs.");
             }
 
             string cursor = null;
