@@ -88,7 +88,7 @@ public class OculusConverter
     }
     public static DBType FromOculusToDB<OculusType, DBType>(OculusType oculus) where DBType : new()
     {
-        if (oculus == null) throw new Exception("Cannot convert null object");
+        if (oculus == null) return new DBType();
         DBType db = new DBType();
         IEnumerable<PropertyInfo> properties = typeof(DBType).GetProperties()
             .Where(prop => prop.IsDefined(typeof(OculusField), false));
