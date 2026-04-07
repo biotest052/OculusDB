@@ -25,9 +25,14 @@ namespace OculusDB
         public static IEnumerable<Application> EnumerateAllApplications(Headset headset)
         {
             Data<AppStoreAllAppsSection> s = GraphQLClient.AllApps(headset, null, 100);
-            if(s.data.node == null || s.data.node.all_items.edges == null)
+            var data = s.data;
+            if(data == null || data.node == null)
             {
-                throw new Exception("Could not get data to enumerate dlcs.");
+                yield break;
+            }
+            if(data.node == null || data.node.all_items.edges == null)
+            {
+                throw new Exception("Could not get data to enumerate applications.");
             }
 
             string cursor = null;
@@ -35,12 +40,18 @@ namespace OculusDB
             {
                 foreach (Node<Application> e in s.data.node.all_items.edges)
                 {
-                    cursor = e.cursor;
-                    yield return e.node;
+                    if (e.node != null)
+                    {
+                        cursor = e.cursor;
+                        yield return e.node;
+                    }
                 }
 
-                //if (s.data.node.all_items.page_info.has_next_page) break;
+                if (s.data.node.all_items.page_info.has_next_page) break;
+                if (data.node.all_items.page_info.end_cursor == null) break;
                 s = GraphQLClient.AllApps(headset, cursor, 100);
+                data = s.data;
+                if (data == null || data.node == null) break;
             }
         }
         
