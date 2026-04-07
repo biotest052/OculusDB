@@ -197,21 +197,24 @@ public class OculusConverter
         if (offer.price != null)
         {
             DBPrice price = new DBPrice();
-            price.currency = offer.price.currency;
+            price.currency = offer.price.currency ?? "";
             price.price = offer.price.offset_amount_numerical;
             price.priceFormatted = offer.price.formatted;
             db.price = price;
-            db.currency = offer.price.currency;
+            db.currency = offer.price.currency ?? "";
         }
         if (offer.strikethrough_price != null)
         {
             DBPrice strikethroughPrice = new DBPrice();
-            strikethroughPrice.currency = offer.strikethrough_price.currency;
+            strikethroughPrice.currency = offer.strikethrough_price.currency ?? "";
             strikethroughPrice.price = offer.strikethrough_price.offset_amount_numerical;
             strikethroughPrice.priceFormatted = offer.strikethrough_price.formatted;
             db.strikethroughPrice = strikethroughPrice;
+            if (string.IsNullOrEmpty(db.currency))
+            {
+                db.currency = offer.strikethrough_price.currency ?? "";
+            }
         }
-        db.currency = offer.price.currency;
         return db;
     }
     
