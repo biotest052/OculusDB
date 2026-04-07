@@ -253,48 +253,74 @@ public class OculusConverter
     /// <returns></returns>
     public static DBApplication Application(Application applicationFromDeveloper, Application applicationFromStore)
     {
+        if (applicationFromDeveloper == null) return new DBApplication();
+        
         DBApplication db = FromOculusToDB<Application, DBApplication>(applicationFromDeveloper);
-        Application? applicationCloudStorage = GraphQLClient.AppDetailsCloudStorageEnabled(applicationFromDeveloper.id).data.node;
-        db.cloudBackupEnabled = applicationCloudStorage?.cloud_backup_enabled ?? false;
+        var cloudStorageData = GraphQLClient.AppDetailsCloudStorageEnabled(applicationFromDeveloper.id);
+        db.cloudBackupEnabled = cloudStorageData?.data?.node?.cloud_backup_enabled ?? false;
         
         // Get latest public metadata revision
-        PDPMetadata metadataToUse = applicationFromDeveloper.firstRevision.nodes[0].pdp_metadata;
-        foreach (ApplicationRevision revision in applicationFromDeveloper.revisionsIncludingVariantMetadataRevisions.nodes)
+        if (applicationFromDeveloper.firstRevision?.nodes == null || applicationFromDeveloper.firstRevision.nodes.Count == 0)
         {
-            if (revision.release_status_enum == ReleaseStatus.RELEASED)
+            db.canonicalName = applicationFromStore?.canonicalName ?? "";
+            return db;
+        }
+        PDPMetadata metadataToUse = applicationFromDeveloper.firstRevision.nodes[0].pdp_metadata;
+        
+        if (applicationFromDeveloper.revisionsIncludingVariantMetadataRevisions?.nodes != null)
+        {
+            foreach (ApplicationRevision revision in applicationFromDeveloper.revisionsIncludingVariantMetadataRevisions.nodes)
             {
-                if (metadataToUse != null && metadataToUse.id == revision.pdp_metadata.id) break; // we already have the full metadata
-                db.hasUnpublishedMetadataInQueue = true;
-                if(revision.pdp_metadata == null) continue;
-                metadataToUse = GraphQLClient.PDPMetadata(revision.pdp_metadata.id).data.node; // fetch released metadata entry from Oculus
-                break;
+                if (revision.release_status_enum == ReleaseStatus.RELEASED)
+                {
+                    if (metadataToUse != null && revision.pdp_metadata != null && metadataToUse.id == revision.pdp_metadata.id) break;
+                    db.hasUnpublishedMetadataInQueue = true;
+                    if(revision.pdp_metadata == null) continue;
+                    var pdpData = GraphQLClient.PDPMetadata(revision.pdp_metadata.id);
+                    if (pdpData?.data?.node != null)
+                    {
+                        metadataToUse = pdpData.data.node;
+                    }
+                    break;
+                }
             }
         }
-        db = FromOculusToDBAlternate(metadataToUse, db); // populate db with info from PDPMetadata
-        db.isFirstParty = metadataToUse.application.is_first_party;
-        db.canonicalName = applicationFromStore.canonicalName;
+        
+        if (metadataToUse != null)
+        {
+            db = FromOculusToDBAlternate(metadataToUse, db);
+            db.isFirstParty = metadataToUse.application?.is_first_party ?? false;
+        }
+        db.canonicalName = applicationFromStore?.canonicalName ?? "";
         
         db.grouping = ApplicationGrouping(applicationFromDeveloper.grouping);
         
         db.offerId = applicationFromStore.current_offer != null ? applicationFromStore.current_offer.id : null;
         
         // Get share capabilities
-        Application? shareCapabilitiesApplication = GraphQLClient.GetAppSharingCapabilities(applicationFromDeveloper.id).data.node;
-        db.shareCapabilities = shareCapabilitiesApplication.share_capabilities_enum;
+        var shareCapabilitiesData = GraphQLClient.GetAppSharingCapabilities(applicationFromDeveloper.id);
+        db.shareCapabilities = shareCapabilitiesData?.data?.node?.share_capabilities_enum ?? new List<ShareCapability>();
 
         db.group = OculusPlatformToHeadsetGroup(applicationFromDeveloper.platform_enum);
         
         // Add translations
-        db.defaultLocale = metadataToUse.application.default_locale;
-        foreach (ApplicationTranslation translation in metadataToUse.translations.nodes)
+        if (metadataToUse?.application != null)
         {
-            foreach (OculusImage img in translation.imagesExcludingScreenshotsAndMarkdown.nodes)
+            db.defaultLocale = metadataToUse.application.default_locale;
+            if (metadataToUse.translations?.nodes != null)
             {
-                if(img.image_type_enum == ImageType.APP_IMG_COVER_SQUARE) db.oculusImageUrl = img.uri;    
+                foreach (ApplicationTranslation translation in metadataToUse.translations.nodes)
+                {
+                    if (translation.imagesExcludingScreenshotsAndMarkdown?.nodes == null) continue;
+                    foreach (OculusImage img in translation.imagesExcludingScreenshotsAndMarkdown.nodes)
+                    {
+                        if(img.image_type_enum == ImageType.APP_IMG_COVER_SQUARE) db.oculusImageUrl = img.uri;    
+                    }
+                    DBApplicationTranslation dbTranslation = FromOculusToDB<ApplicationTranslation, DBApplicationTranslation>(translation);
+                    dbTranslation.parentApplication = ParentApplication(applicationFromDeveloper);
+                    db.translations.Add(dbTranslation);
+                }
             }
-            DBApplicationTranslation dbTranslation = FromOculusToDB<ApplicationTranslation, DBApplicationTranslation>(translation);
-            dbTranslation.parentApplication = ParentApplication(applicationFromDeveloper);
-            db.translations.Add(dbTranslation);
         }
 
         db.searchDisplayName = db.displayName;
